@@ -27,9 +27,9 @@
                msg: "PORT REQUEST IS CANCELLED BASED ON REQUESTER INPUT"
              when: '"no" in pause_prompt.user_input'
            - meta: end_play
-             when: '"no" in pause_prompt.user_input'
+             when: '"Current state: UP" in pause_prompt.user_input'
 
-        when: '"UP" in print_output_1.response'
+        when: '"Current state: UP" in print_output_1.response'
 
 
       - block:
@@ -44,7 +44,7 @@
              when: '"no" in pause_prompt.user_input'
            - meta: end_play
              when: '"no" in pause_prompt.user_input'
-        when: '"DOWN" in print_output_1.response'
+        when: '"Current state: DOWN" in print_output_1.response'
 
       - name: FINALIZING CONFIGURATION
         comware_command:
