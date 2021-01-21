@@ -8,7 +8,7 @@
       - name: BEGINING CONFIGURATION
         comware_command:
            command:
-               - display interface brief {{ interface }}
+               - display interface {{ interface }}
                - display vlan {{ vlan }}
            type: display
            username: "{{ username }}"
@@ -44,7 +44,7 @@
              when: '"no" in pause_prompt.user_input'
            - meta: end_play
              when: '"no" in pause_prompt.user_input'
-        when: '"DOWN" in print_output_1.response'
+        when: '"Line protocol state: DOWN" in print_output_1.response'
 
       - name: FINALIZING CONFIGURATION
         comware_command:
@@ -56,7 +56,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
-        when: '"DOWN" in print_output_1.response'
+        when: '"Line protocol state: DOWN" in print_output_1.response'
         register: print_output_2
 
       - name: CHECKING VLAN AVAILABILITY
