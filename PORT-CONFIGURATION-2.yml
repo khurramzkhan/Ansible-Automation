@@ -8,7 +8,7 @@
       - name: BEGINING CONFIGURATION
         comware_command:
            command:
-               - display interface brief | i {{ interface }}
+               - display interface brief {{ interface }}
                - display vlan {{ vlan }}
            type: display
            username: "{{ username }}"
