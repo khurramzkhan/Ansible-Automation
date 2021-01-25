@@ -8,7 +8,7 @@
       - name: Display vlan information
         comware_command:
            command:
-               - display vlan brief
+               - display vlan brief | i UP
            type: display
            username: "{{ username }}"
            password: "{{ password }}"
