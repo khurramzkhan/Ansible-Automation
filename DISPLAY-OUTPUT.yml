@@ -20,7 +20,7 @@
       - set_fact:
           print_output_4: "{{print_output_3 | regex_replace(' ','') }}"
       - set_fact:
-          print_output_5: "{{print_output_3.split(' ') }}"
+          print_output_5: "{{print_output_4.split(' ') }}"
 #          - debug:
 #              var=print_output_3
       - debug: var=print_output_5
