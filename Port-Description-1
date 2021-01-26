@@ -23,21 +23,6 @@
 #          - debug:
 #              var=print_output_3
         when: '"description" in print_output_1.response'
-      - block:
-          - name: VERIFYING EXISTING CONFIGURATIONS
-            pause:
-              prompt: CHANGING PORT DESCRIPTION FOR {{ interface }} FROM {{ print_output_3 }} TO {{ description }}.
-                      DO YOU WANT TO CONTINUE (yes/no)?
-            register: pause_prompt
-#          - debug:
-          - debug:
-              msg: "PORT REQUEST IS CANCELLED BASED ON REQUESTER INPUT"
-            when: '"no" in pause_prompt.user_input'
-          - meta: end_play
-            when: '"no" in pause_prompt.user_input'
-
-        when: '"description" in print_output_1.response'
-
       - name: FINALIZING CONFIGURATION
         comware_command:
            command:
