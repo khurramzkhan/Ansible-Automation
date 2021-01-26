@@ -19,6 +19,8 @@
           print_output_3: "{{print_output_1.response | regex_replace('\\r\\n','') }}"
       - set_fact:
           print_output_4: "{{print_output_3 | regex_replace(' ','') }}"
+      - set_fact:
+          print_output_5: "{{print_output_3.split(' ') }}"
 #          - debug:
 #              var=print_output_3
-      - debug: var=print_output_4
+      - debug: var=print_output_5
