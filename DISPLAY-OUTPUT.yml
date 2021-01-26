@@ -16,5 +16,7 @@
 
         register: print_output_1
       - set_fact:
-          print_output_2: "{{print_output_1.response.split(' ') }}"
-      - debug: var=print_output_1.response
+          print_output_3: "{{print_output_1.response | regex_replace('\\r\\n','') }}"
+#          - debug:
+#              var=print_output_3
+      - debug: var=print_output_3
