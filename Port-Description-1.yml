@@ -26,7 +26,7 @@
       - name: FINALIZING CONFIGURATION
         comware_command:
            command:
-                - int range {{ interface }}
+                - int range {{ interface }} {{ interface1 }}
                 - description {{ description }}
                 - exit
            type: config
