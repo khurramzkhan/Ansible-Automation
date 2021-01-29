@@ -58,8 +58,8 @@
           var=print_output_6
  
       - block
-         - name: FINALIZING CONFIGURATION FOR INTERFACE {{ interface1 }}
-           comware_command:
+          - name: FINALIZING CONFIGURATION FOR INTERFACE {{ interface1 }}
+            comware_command:
               command:
                 - int {{ interface1 }} 
                 - description {{ description1 }}
@@ -69,7 +69,7 @@
               password: "{{ password }}"
               hostname: "{{ inventory_hostname }}"
 
-           register: print_output_7
+            register: print_output_7
       - debug:
           var=print_output_7
         when: '"Wrong" not in print_output_4.response'            
