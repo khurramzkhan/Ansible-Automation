@@ -35,7 +35,9 @@
            hostname: "{{ inventory_hostname }}"
 
         register: print_output_4
-
+      - debug:
+          var=print_output_4
+          
       - debug:
           msg: "PORT {{ interface }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description }} AS CURRENT DESCRIPTION"
         when: '"description" not in print_output_1.response'
