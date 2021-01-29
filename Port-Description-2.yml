@@ -70,7 +70,7 @@
         register: print_output_7
       - debug:
           var=print_output_7
-        when: '"not required" not in print_output_6'            
+        when: '"Wrong parameter" not in print_output_4'            
                                      
       - debug:
           msg: "PORT {{ interface }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description }} AS CURRENT DESCRIPTION"
