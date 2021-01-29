@@ -26,7 +26,7 @@
            hostname: "{{ inventory_hostname }}"
 
         register: print_output_1
-        when: '"Current State" in print_output_1" 
+        when: '"Current State" in print_output_1'
         
       - name: EXTRACTING CURRENT OUTPUT OF {{ interface2 }}
         comware_command:
@@ -38,7 +38,7 @@
            hostname: "{{ inventory_hostname }}"
 
         register: print_output_2  
-        when: '"Current State" in print_output_2" 
+        when: '"Current State" in print_output_2' 
        
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface }}"
