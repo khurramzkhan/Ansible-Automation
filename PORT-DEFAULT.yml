@@ -102,22 +102,22 @@
      
       - debug:
           msg: "PORT {{ interface }} IS CONFIGURED AS DEFAULT PORT"
-        when: '"DOWN" in print_output_1.response
+        when: '"DOWN" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface1 }} IS CONFIGURED AS DEFAULT PORT"
-        when: '"DOWN" in print_output_1.response
+        when: '"DOWN" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface2 }} IS CONFIGURED AS DEFAULT PORT"
-        when: '"DOWN" in print_output_1.response
+        when: '"DOWN" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface }} IS IN USE AND NOT CONFIGURED"
-        when: '"UP" in print_output_1.response
+        when: '"UP" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface1 }} IS IN USE AND NOT CONFIGURED"
-        when: '"UP" in print_output_1.response
+        when: '"UP" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface2 }} IS IN USE AND NOT CONFIGURED"
-        when: '"UP" in print_output_1.response
+        when: '"UP" in print_output_1.response'
       
       
 
