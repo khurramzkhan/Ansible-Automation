@@ -56,9 +56,13 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-
+        register: output1
+          
         when: '"DOWN" in print_output_1.response'
-           
+      - debug:
+          var=output1
+        
+       
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface1 }}"
            debug:
