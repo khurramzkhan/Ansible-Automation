@@ -1,0 +1,76 @@
+---
+  - name: PORT-DEFAULT REQUEST
+    hosts: "{{host}}"
+    gather_facts: no
+    connection: local
+
+    tasks:
+      - name: EXTRACTING CURRENT OUTPUT {{ interface }}
+        comware_command:
+           command:
+               - display interface {{ interface }} 
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+
+        register: print_output_1
+        
+      - name: EXTRACTING CURRENT OUTPUT {{ interface1 }}
+        comware_command:
+           command:
+               - display interface {{ interface1 }} 
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+
+        register: print_output_2
+        
+      - name: EXTRACTING CURRENT OUTPUT {{ interface2 }}
+        comware_command:
+           command:
+               - display interface {{ interface2 }} 
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+
+        register: print_output_3  
+        
+        
+        
+        
+        
+        
+      - set_fact:
+          print_output_2: "{{print_output_1.response.split(' ') }}"
+        when: '"description" in print_output_1.response'
+      - set_fact:
+          print_output_3: "{{print_output_2[8] | regex_replace('\\r\\n','') }}"
+#          - debug:
+#              var=print_output_3
+        when: '"description" in print_output_1.response'
+      - name: FINALIZING CONFIGURATION
+        comware_command:
+           command:
+                - int range {{ interface }} {{ interface1 }}
+                - description {{ description }}
+                - exit
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+
+        register: print_output_4
+      - debug:
+          var=print_output_4
+          
+      - debug:
+          msg: "PORT {{ interface }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description }} AS CURRENT DESCRIPTION"
+        when: '"description" not in print_output_1.response'
+      - debug:
+          msg: "CHANGING PORT DESCRIPTION FOR {{ interface }} FROM {{ print_output_3 }} TO {{ description }}"
+        when: '"description" in print_output_1.response'
+      - debug:
+          msg: "ACCESS-PORT {{ interface }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description }}"
