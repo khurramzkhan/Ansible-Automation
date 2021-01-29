@@ -50,6 +50,7 @@
            command:
                 - int {{ interface }}
                 - undo port link-mode
+                - undo description
                 - shut
                 
            type: config
@@ -74,6 +75,7 @@
            command:
                 - int {{ interface1 }}
                 - undo port link-mode
+                - undo description
                 - shut 
                 - exit   
            type: config
@@ -95,6 +97,7 @@
            command:
                 - int {{ interface1 }}
                 - undo port link-mode
+                - undo description
                 - shut 
                 - exit   
            type: config
