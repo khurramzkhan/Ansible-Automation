@@ -5,7 +5,7 @@
     connection: local
 
     tasks:
-      - name: EXTRACTING INFORMATION - {{ interface }}
+      - name: EXTRACTING INFORMATION OF FIRST PORT - {{ interface }}
         comware_command:
            command:
                - display interface {{ interface }} 
@@ -16,30 +16,30 @@
 
         register: print_output
         
-      - block:
-         - name: EXTRACTING INFORMATION - {{ interface1 }}
-           comware_command:
-             command:
+ #     - block:
+      - name: EXTRACTING INFORMATION OF SECOND PORT - {{ interface1 }}
+        comware_command:
+           command:
                - display interface {{ interface1 }} 
-             type: display
-             username: "{{ username }}"
-             password: "{{ password }}"
-             hostname: "{{ inventory_hostname }}"
-           register: print_output_1
-           when: '"Current state" in print_output_1'
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_1
+#           when: '"Current state" in print_output_1'
       - debug:
           var=print_output_1
-      - block:
-         - name: EXTRACTING CURRENT OUTPUT OF {{ interface2 }}
-           comware_command:
-             command:
+ #     - block:
+      - name: EXTRACTING INFOMRATION OF THIRD PORT - {{ interface2 }}
+        comware_command:
+           command:
                - display interface {{ interface2 }} 
-             type: display
-             username: "{{ username }}"
-             password: "{{ password }}"
-             hostname: "{{ inventory_hostname }}"
-           register: print_output_2
-        when: '"not required" not in print_output_2'
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_2
+#        when: '"not required" not in print_output_2'
        
       
       - block:
