@@ -14,7 +14,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
-        register: print_output_1
+        register: print_output
         
       - name: EXTRACTING CURRENT OUTPUT OF {{ interface1 }}
         comware_command:
@@ -25,7 +25,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
-        register: print_output_2
+        register: print_output_1
         
       - name: EXTRACTING CURRENT OUTPUT OF {{ interface2 }}
         comware_command:
@@ -36,14 +36,14 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
-        register: print_output_3  
+        register: print_output_2  
         
        
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface }}"
            debug:
              msg: "PORT {{ interface }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION"
-        when: '"Current state: UP" in print_output_1.response'
+        when: '"Current state: UP" in print_output.response'
 
       - name: PORT {{ interface }} IS AVAILABLE, TURNING PORT TO DEFAULT 
         comware_command:
@@ -59,7 +59,7 @@
            hostname: "{{ inventory_hostname }}"
         register: output1
           
-        when: '"DOWN" in print_output_1.response'
+        when: '"DOWN" in print_output.response'
       - debug:
           var=output1
         
@@ -68,7 +68,7 @@
          - name: "FINALIZING CONFIGURATION FOR {{ interface1 }}"
            debug:
              msg: "PORT {{ interface1 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION"
-        when: '"Current state: UP" in print_output_2.response'
+        when: '"Current state: UP" in print_output_1.response'
 
       - name: PORT {{ interface1 }} IS AVAILABLE, TURNING PORT TO DEFAULT 
         comware_command:
@@ -90,7 +90,7 @@
              msg: "PORT {{ interface2 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION"
 
          - meta: end_play
-        when: '"Current state: UP" in print_output_3.response'
+        when: '"Current state: UP" in print_output_2.response'
 
       - name: PORT {{ interface2 }} IS AVAILABLE, TURNING PORT TO DEFAULT 
         comware_command:
@@ -105,26 +105,26 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
-        when: '"DOWN" in print_output_1.response'  
+        when: '"DOWN" in print_output_2.response'  
      
       - debug:
           msg: "PORT {{ interface }} IS CONFIGURED AS DEFAULT PORT"
-        when: '"DOWN" in print_output_1.response'
+        when: '"DOWN" in print_output.response'
       - debug:
           msg: "PORT {{ interface1 }} IS CONFIGURED AS DEFAULT PORT"
         when: '"DOWN" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface2 }} IS CONFIGURED AS DEFAULT PORT"
-        when: '"DOWN" in print_output_1.response'
+        when: '"DOWN" in print_output_2.response'
       - debug:
           msg: "PORT {{ interface }} IS IN USE AND NOT CONFIGURED"
-        when: '"UP" in print_output_1.response'
+        when: '"UP" in print_output.response'
       - debug:
           msg: "PORT {{ interface1 }} IS IN USE AND NOT CONFIGURED"
         when: '"UP" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface2 }} IS IN USE AND NOT CONFIGURED"
-        when: '"UP" in print_output_1.response'
+        when: '"UP" in print_output_2.response'
       
       
 
