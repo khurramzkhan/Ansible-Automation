@@ -16,30 +16,31 @@
 
         register: print_output
         
-      - name: EXTRACTING CURRENT OUTPUT OF {{ interface1 }}
-        comware_command:
-           command:
+      - block:
+         - name: EXTRACTING CURRENT OUTPUT OF {{ interface1 }}
+           comware_command:
+             command:
                - display interface {{ interface1 }} 
-           type: display
-           username: "{{ username }}"
-           password: "{{ password }}"
-           hostname: "{{ inventory_hostname }}"
+             type: display
+             username: "{{ username }}"
+             password: "{{ password }}"
+             hostname: "{{ inventory_hostname }}"
+           register: print_output_1
+        when: '"Current state" in print_output_1.response'
 
-        register: print_output_1
-        when: '"Current State" in print_output_1'
-        
-      - name: EXTRACTING CURRENT OUTPUT OF {{ interface2 }}
-        comware_command:
-           command:
+      - block:
+         - name: EXTRACTING CURRENT OUTPUT OF {{ interface2 }}
+           comware_command:
+             command:
                - display interface {{ interface2 }} 
-           type: display
-           username: "{{ username }}"
-           password: "{{ password }}"
-           hostname: "{{ inventory_hostname }}"
-
-        register: print_output_2  
-        when: '"Current State" in print_output_2' 
+             type: display
+             username: "{{ username }}"
+             password: "{{ password }}"
+             hostname: "{{ inventory_hostname }}"
+           register: print_output_2
+        when: '"Current state" in print_output_2.response'
        
+      
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface }}"
            debug:
