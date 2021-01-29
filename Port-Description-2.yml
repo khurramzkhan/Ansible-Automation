@@ -57,6 +57,7 @@
       - debug:
           var=print_output_6
  
+      - block
       - name: FINALIZING CONFIGURATION FOR INTERFACE {{ interface1 }}
         comware_command:
            command:
