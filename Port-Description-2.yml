@@ -36,10 +36,11 @@
           print_output_5: "{{print_output_4.response.split(' ') }}"
         when: '"description" in print_output_4.response'
       - set_fact:
-          print_output_5: "{{print_output_5[8] | regex_replace('\\r\\n','') }}"
-#         - debug:
-#              var=print_output_3
+          print_output_6: "{{print_output_5[8] | regex_replace('\\r\\n','') }}"
+#        - debug:
+#           var=print_output_3
         when: '"description" in print_output_1.response'
+ 
       - name: FINALIZING CONFIGURATION FOR INTERFACE {{ interface }}
         comware_command:
            command:
@@ -58,7 +59,7 @@
       - name: FINALIZING CONFIGURATION FOR INTERFACE {{ interface1 }}
         comware_command:
            command:
-                - int {{ interface }} 
+                - int {{ interface1 }} 
                 - description {{ description1 }}
                 - exit
            type: config
@@ -66,9 +67,9 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
-        register: print_output_6
+        register: print_output_7
       - debug:
-          var=print_output_6
+          var=print_output_7
                    
                                      
       - debug:
@@ -79,10 +80,10 @@
         when: '"description" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface1 }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description1 }} AS CURRENT DESCRIPTION"
-        when: '"description" not in print_output_1.response'
+        when: '"description" not in print_output_4.response'
       - debug:
-          msg: "CHANGING PORT DESCRIPTION FOR {{ interface1 }} FROM {{ print_output_3 }} TO {{ description1 }}"
-        when: '"description" in print_output_1.response'     
+          msg: "CHANGING PORT DESCRIPTION FOR {{ interface1 }} FROM {{ print_output_6 }} TO {{ description1 }}"
+        when: '"description" in print_output_4.response'     
       - debug:
           msg: "ACCESS-PORT {{ interface }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description }}"
       - debug:
