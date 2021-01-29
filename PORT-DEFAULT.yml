@@ -50,15 +50,15 @@
            command:
                 - int {{ interface }}
                 - undo port link-mode
-                - shut 
-                - exit   
+                - shut
+                
            type: config
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
         when: '"DOWN" in print_output_1.response'
-
+           
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface1 }}"
            debug:
