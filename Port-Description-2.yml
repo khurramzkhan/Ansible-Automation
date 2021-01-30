@@ -20,6 +20,9 @@
       - set_fact:
           print_output_3: "{{print_output_2[8] | regex_replace('\\r\\n','') }}"
         when: '"description" in print_output_1.response'
+      - debug: 
+          var=print_output_3
+          
       - name: EXTRACTING CURRENT CONFIGURATION, SECOND INTERFACE - {{ interface1 }}
         comware_command:
            command:
@@ -35,6 +38,9 @@
       - set_fact:
           print_output_6: "{{print_output_5[8] | regex_replace('\\r\\n','') }}"
         when: '"description" in print_output_4.response'
+      - debug: 
+          var=print_output_6
+      
       - name: FINALIZING CONFIGURATION FOR INTERFACE {{ interface }}
         comware_command:
            command:
