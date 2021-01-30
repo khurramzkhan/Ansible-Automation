@@ -1,11 +1,11 @@
 ---
-  - name: PORT-DEFAULT REQUEST
+  - name: RUNNING PORT-DEFAULT REQUEST FOR {{ host }}
     hosts: "{{host}}"
     gather_facts: no
     connection: local
 
     tasks:
-      - name: EXTRACTING INFORMATION OF FIRST PORT - {{ interface }}
+      - name: EXTRACTING INFORMATION, FIRST PORT - {{ interface }}
         comware_command:
            command:
                - display interface {{ interface }} 
@@ -17,7 +17,7 @@
         register: print_output
         
  #     - block:
-      - name: EXTRACTING INFORMATION OF SECOND PORT - {{ interface1 }}
+      - name: EXTRACTING INFORMATION, SECOND PORT - {{ interface1 }}
         comware_command:
            command:
                - display interface {{ interface1 }} 
@@ -30,7 +30,7 @@
       - debug:
           var=print_output_1
  #     - block:
-      - name: EXTRACTING INFOMRATION OF THIRD PORT - {{ interface2 }}
+      - name: EXTRACTING INFOMRATION, THIRD PORT - {{ interface2 }}
         comware_command:
            command:
                - display interface {{ interface2 }} 
@@ -45,10 +45,10 @@
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface }}"
            debug:
-             msg: "PORT {{ interface }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION"
+             msg: "PORT {{ interface }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface }}"
         when: '"Current state: UP" in print_output.response'
 
-      - name: PORT {{ interface }} IS AVAILABLE, TURNING PORT TO DEFAULT 
+      - name: PORT {{ interface }} IS DOWN & AVAILABLE, TURNING PORT TO DEFAULT 
         comware_command:
            command:
                 - int {{ interface }}
@@ -70,10 +70,10 @@
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface1 }}"
            debug:
-             msg: "PORT {{ interface1 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION"
+             msg: "PORT {{ interface1 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface }}"
         when: '"Current state: UP" in print_output_1.response'
 
-      - name: PORT {{ interface1 }} IS AVAILABLE, TURNING PORT TO DEFAULT 
+      - name: PORT {{ interface1 }} IS DOWN & AVAILABLE, TURNING PORT TO DEFAULT 
         comware_command:
            command:
                 - int {{ interface1 }}
@@ -85,17 +85,19 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        when: '"DOWN" in print_output_1.response'   
+        when: 
+           - '"DOWN" in print_output_1.response'
+           - '"Wrong" not in print_output_1.response' 
         
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface2 }}"
            debug:
-             msg: "PORT {{ interface2 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION"
+             msg: "PORT {{ interface2 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface2 }}"
 
          - meta: end_play
         when: '"Current state: UP" in print_output_2.response'
 
-      - name: PORT {{ interface2 }} IS AVAILABLE, TURNING PORT TO DEFAULT 
+      - name: PORT {{ interface2 }} IS DOWN & AVAILABLE, TURNING PORT TO DEFAULT 
         comware_command:
            command:
                 - int {{ interface1 }}
@@ -108,7 +110,9 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
 
-        when: '"DOWN" in print_output_2.response'  
+        when:  
+           - '"DOWN" in print_output_2.response'
+           - '"Wrong" not in print_output_2.response' 
      
       - debug:
           msg: "PORT {{ interface }} IS CONFIGURED AS DEFAULT PORT"
