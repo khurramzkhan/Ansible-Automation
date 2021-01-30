@@ -1,11 +1,11 @@
 ---
-  - name: PORT DESCRIPTION CONFIGURATION REQUEST
+  - name: RUNNING PORT DESCRIPTION REQUEST FOR {{ host }}
     hosts: "{{host}}"
     gather_facts: no
     connection: local
 
     tasks:
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface }}
+      - name: EXTRACTING CURRENT CONFIGURATION, FIRST INTERFACE {{ interface }}
         comware_command:
            command:
                - display current-configuration interface {{ interface }} | i des
@@ -22,7 +22,7 @@
           print_output_3: "{{print_output_2[8] | regex_replace('\\r\\n','') }}"
         when: '"description" in print_output_1.response'
 
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface1 }}
+      - name: EXTRACTING CURRENT CONFIGURATION, SECOND INTERFACE {{ interface1 }}
         comware_command:
            command:
                - display current-configuration interface {{ interface1 }} | i des
@@ -76,20 +76,28 @@
                                      
       - debug:
           msg: "PORT {{ interface }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description }} AS CURRENT DESCRIPTION"
+          register: output
         when: '"description" not in print_output_1.response'
       - debug:
           msg: "CHANGING PORT DESCRIPTION FOR {{ interface }} FROM {{ print_output_3 }} TO {{ description }}"
+          register: output1
         when: '"description" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface1 }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description1 }} AS CURRENT DESCRIPTION"
-        when: '"description" not in print_output_4.response'
+          register: output2
+        when: 
+           - '"description" not in print_output_4.response'
+           - '"Wrong" not in print_output_4.response'
       - debug:
           msg: "CHANGING PORT DESCRIPTION FOR {{ interface1 }} FROM {{ print_output_6 }} TO {{ description1 }}"
+          register: output3
         when: '"description" in print_output_4.response'     
       - debug:
           msg: "ACCESS-PORT {{ interface }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description }}"
+        when: '"description" in print_output_6.response'    
       - debug:
           msg: "ACCESS-PORT {{ interface1 }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description1 }}"
+        when: '"description" in print_output_7.response'  
           
           
           
