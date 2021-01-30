@@ -54,6 +54,7 @@
                 - int {{ interface }}
                 - undo port link-mode
                 - undo description
+                - undo port access vlan
                 - shut
                 
            type: config
@@ -79,6 +80,7 @@
                 - int {{ interface1 }}
                 - undo port link-mode
                 - undo description
+                - undo port access vlan
                 - shut 
                 - exit   
            type: config
@@ -103,6 +105,7 @@
                 - int {{ interface1 }}
                 - undo port link-mode
                 - undo description
+                - undo port access vlan
                 - shut 
                 - exit   
            type: config
