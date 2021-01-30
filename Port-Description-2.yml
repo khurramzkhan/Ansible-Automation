@@ -93,7 +93,7 @@
         when: '"description" in print_output_6.response'    
       - debug:
           msg: "ACCESS-PORT {{ interface1 }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description1 }}"
-        when: '"description" in print_output_7'  
+        when: '"description" in print_output_4.response'  
           
           
           
