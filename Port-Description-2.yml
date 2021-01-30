@@ -76,21 +76,17 @@
                                      
       - debug:
           msg: "PORT {{ interface }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description }} AS CURRENT DESCRIPTION"
-          register: output
         when: '"description" not in print_output_1.response'
       - debug:
           msg: "CHANGING PORT DESCRIPTION FOR {{ interface }} FROM {{ print_output_3 }} TO {{ description }}"
-          register: output1
         when: '"description" in print_output_1.response'
       - debug:
           msg: "PORT {{ interface1 }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description1 }} AS CURRENT DESCRIPTION"
-          register: output2
         when: 
            - '"description" not in print_output_4.response'
            - '"Wrong" not in print_output_4.response'
       - debug:
           msg: "CHANGING PORT DESCRIPTION FOR {{ interface1 }} FROM {{ print_output_6 }} TO {{ description1 }}"
-          register: output3
         when: '"description" in print_output_4.response'     
       - debug:
           msg: "ACCESS-PORT {{ interface }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description }}"
