@@ -51,7 +51,7 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        register: print_output_6
+        register: print_output_7
       - name: FINALIZING CONFIGURATION FOR INTERFACE {{ interface1 }}
         comware_command:
            command:
@@ -62,7 +62,7 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        register: print_output_7
+        register: print_output_8
         when: '"Wrong" not in print_output_4.response'            
       - debug:
           msg: "PORT {{ interface }} HAS NO DESCRIPTION CONFIGURED. CONFIGURING {{ description }} AS CURRENT DESCRIPTION"
@@ -82,10 +82,9 @@
            - '"Wrong" not in print_output_4.response'
       - debug:
           msg: "ACCESS-PORT {{ interface }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description }}"
-        when: '"description" in print_output_6.response'    
       - debug:
           msg: "ACCESS-PORT {{ interface1 }} DESCRIPTION CONFIGURED SUCCESSFULLY to {{ description1 }}"
-        when: '"description" in print_output_7'  
+        when: '"Wrong" not in print_output_4.response'
           
           
           
