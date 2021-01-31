@@ -14,12 +14,13 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
+      
       - set_fact:
           print_output_2: "{{ print_output_1.response.split(' ') }}"
         when: '"description" in print_output_1.response'
       - set_fact:
           print_output_3: "{{ print_output_2[8] | regex_replace('\\r\\n','') }}"
-        when: '"description" in print_output_1.response
+        when: '"description" in print_output_1.response'
           
       - name: EXTRACTING CURRENT CONFIGURATION, SECOND INTERFACE - {{ interface1 }}
         comware_command:
@@ -30,6 +31,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_4
+      
       - set_fact:
           print_output_5: "{{ print_output_4.response.split(' ') }}"
         when: '"description" in print_output_4.response'
