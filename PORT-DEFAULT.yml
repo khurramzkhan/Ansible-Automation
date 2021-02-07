@@ -50,7 +50,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: output1
-        when: '"DOWN" in print_output.response'
+        when: '"Current state: DOWN" in print_output.response'
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface1 }}"
            debug:
@@ -70,8 +70,8 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         when: 
-           - '"DOWN" in print_output_1.response'
-           - '"Wrong" not in print_output_1.response' 
+           - '"Current state: DOWN" in print_output_1.response'
+           #- '"Wrong" not in print_output_1.response' 
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface2 }}"
            debug:
@@ -90,8 +90,8 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         when:  
-           - '"DOWN" in print_output_2.response'
-           - '"Wrong" not in print_output_2.response' 
+           - '"Current state: DOWN" in print_output_2.response'
+          # - '"Wrong" not in print_output_2.response' 
       - debug:
           msg: "PORT {{ interface }} IS CONFIGURED AS DEFAULT PORT"
         when: '"DOWN" in print_output.response'
