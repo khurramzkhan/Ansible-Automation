@@ -140,85 +140,28 @@
            hostname: "{{ inventory_hostname }}"
         when: '"DOWN" in print_output_4.response'
         register: print_output_8
-        
-        
-        
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     - name: CHECKING VLAN AVAILABILITY FOR VLAN {{ vlan }} 
-        comware_command:
-          command:
-                - vlan {{ vlan }}
-                - name {{ vlan_description }}
-                - exit
-          type: config
-          username: "{{ username }}"
-          password: "{{ password }}"
-          hostname: "{{ inventory_hostname }}"
-
-        when: '"This VLAN does not exist." in print_output_1.response'
-        register: print_output_3
-        ignore_errors: yes
+                      
       - debug:
-          msg: VLAN {{ vlan }} DOES NOT EXIST ON THIS SWITCH. CREATING A NEW L2 VLAN
-        when: '"This VLAN does not exist." in print_output_1.response'
-
-      - name: VLAN & PORT ARE READY, FINALIZING CONFIGURATION
-        comware_command:
-           command:
-                - int {{ interface }}
-                - "{{ state }}"
-                - port link-mode bridge
-                - port link-type access
-                - port access vlan {{ vlan }}
-                - description {{ description }}
-           type: config
-           username: "{{ username }}"
-           password: "{{ password }}"
-           hostname: "{{ inventory_hostname }}"
-
-        when: '"{{ vlan }}" in print_output_1.response'
-
-        register: print_output_4
-        ignore_errors: yes
+          msg: "PORT {{ interface1 }} of {{ host }} IS CONFIGURED SUCCESSFULLY"
+        when: '"DOWN" in print_output_1.response'
       - debug:
-#          var: print_output_4:
-          "msg": 
-             ACCESS-PORT {{ interface }} CONFIGURED SUCCESSFULLY WITH VLAN {{ vlan }}
+          msg: "PORT {{ interface2 }} of {{ host }} IS CONFIGURED SUCCESSFULLY"
+        when: '"DOWN" in print_output_2.response'
+      - debug:
+          msg: "PORT {{ interface3 }} of {{ host }} IS CONFIGURED SUCCESSFULLY"
+        when: '"DOWN" in print_output_3.response'
+      - debug:
+          msg: "PORT {{ interface4 }} of {{ host }} IS CONFIGURED SUCCESSFULLY"
+        when: '"UP" in print_output_4.response'
+      - debug:
+          msg: "PORT {{ interface1 }} of {{ host }} IS IN USE AND NOT CONFIGURED"
+        when: '"UP" in print_output_1.response'
+      - debug:
+          msg: "PORT {{ interface2 }} of {{ host }} IS IN USE AND NOT CONFIGURED"
+        when: '"UP" in print_output_2.response'
+      - debug:
+          msg: "PORT {{ interface3 }} of {{ host }} IS IN USE AND NOT CONFIGURED"
+        when: '"UP" in print_output_3.response'
+      - debug:
+          msg: "PORT {{ interface4 }} of {{ host }} IS IN USE AND NOT CONFIGURED"
+        when: '"UP" in print_output_4.response'
