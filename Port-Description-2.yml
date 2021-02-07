@@ -5,7 +5,7 @@
     connection: local
 
     tasks:
-      - name: EXTRACTING CURRENT CONFIGURATION, FIRST INTERFACE - {{ interface }}
+      - name: CHECKING CURRENT CONFIGURATION, FIRST INTERFACE - {{ interface }}
         comware_command:
            command:
                - display current-configuration interface {{ interface }} | i des
@@ -15,10 +15,10 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
       
-      - set_fact:
+      - extracting_output:
           print_output_2: "{{ print_output_1.response.split(' ') }}"
         when: '"description" in print_output_1.response'
-      - set_fact:
+      - extracting_ouput:
           print_output_3: "{{ print_output_2[8] | regex_replace('\\r\\n','') }}"
         when: '"description" in print_output_1.response'
           
