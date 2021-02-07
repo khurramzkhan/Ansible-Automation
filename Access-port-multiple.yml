@@ -152,7 +152,7 @@
         when: '"DOWN" in print_output_3.response'
       - debug:
           msg: "PORT {{ interface4 }} of {{ host }} IS CONFIGURED SUCCESSFULLY AS TRUNK OF {{ description4 }}"
-        when: '"UP" in print_output_4.response'
+        when: '"DOWN" in print_output_4.response'
       - debug:
           msg: "PORT {{ interface1 }} of {{ host }} IS IN USE AND NOT CONFIGURED"
         when: '"UP" in print_output_1.response'
