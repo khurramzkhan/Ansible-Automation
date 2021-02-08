@@ -59,7 +59,10 @@
         comware_command:
            command:
                 - int {{ interface1 }}
-                - port link-mode bridge
+                - undo port link-type
+                - undo description
+                - undo port access vlan
+                - undo stp edged-port 
                 - description {{ description1 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
@@ -84,6 +87,10 @@
         comware_command:
            command:
                 - int {{ interface2 }}
+                - undo port link-type
+                - undo description
+                - undo port access vlan
+                - undo stp edged-port 
                 - port link-mode bridge
                 - description {{ description2 }}
                 - port link-type trunk
@@ -109,6 +116,10 @@
         comware_command:
            command:
                 - int {{ interface3 }}
+                - undo port link-type
+                - undo description
+                - undo port access vlan
+                - undo stp edged-port 
                 - port link-mode bridge
                 - description {{ description3 }}
                 - port link-type trunk
@@ -134,6 +145,10 @@
         comware_command:
            command:
                 - int {{ interface4 }}
+                - undo port link-type
+                - undo description
+                - undo port access vlan
+                - undo stp edged-port 
                 - port link-mode bridge
                 - description {{ description4 }}
                 - port link-type trunk
