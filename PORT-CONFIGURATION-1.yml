@@ -65,7 +65,7 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        when: '"{{ vlan }}" in print_output_1.response'
+        when: '"vlan" in print_output_1.response'
         register: print_output_4
       - debug:
           "msg": 
