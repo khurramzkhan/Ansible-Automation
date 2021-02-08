@@ -6,7 +6,6 @@
 
     tasks:
       - name: EXTRACTING INFORMATION, FIRST PORT - {{ interface }}
-        ignore_errors: True
         no_log: True
         comware_command:
            command:
@@ -17,6 +16,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output
       - name: EXTRACTING INFORMATION, SECOND PORT - {{ interface1 }}
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface1 }} 
@@ -26,6 +26,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
       - name: EXTRACTING INFOMRATION, THIRD PORT - {{ interface2 }}
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface2 }} 
