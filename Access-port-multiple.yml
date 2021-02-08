@@ -5,7 +5,7 @@
     connection: local
 
     tasks:
-      - name: EXTRACTING CURRENT CONFIGURATION FOR FIRST INTERFACE {{ interface1 }}   
+      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface1 }}   
         comware_command:
            command:
                - display interface {{ interface1 }}
@@ -15,7 +15,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
 
-      - name: EXTRACTING CURRENT CONFIGURATION FOR SECOND INTERFACE {{ interface2 }}
+      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface2 }}
         comware_command:
            command:
                - display interface {{ interface2 }}
@@ -25,7 +25,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_2
         
-      - name: EXTRACTING CURRENT CONFIGURATION FOR THIRD INTERFACE {{ interface3 }}  
+      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface3 }}  
         comware_command:
            command:
                - display interface {{ interface3 }}
@@ -35,7 +35,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_3
         
-      - name: EXTRACTING CURRENT CONFIGURATION FOR FOURTH INTERFACE {{ interface4 }} 
+      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface4 }} 
         comware_command:
            command:
                - display interface {{ interface4 }}
@@ -130,8 +130,8 @@
                 - description {{ description4 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
-              #  - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-              # - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
+                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
+               - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
                 - stp edged-port
                 - undo shut 
            type: config
