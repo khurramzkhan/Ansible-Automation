@@ -6,6 +6,7 @@
 
     tasks:
       - name: BEGINING PORT CONFIGURATION  
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface }}
@@ -16,9 +17,6 @@
            hostname: "{{ inventory_hostname }}"
 
         register: print_output_1
-        ignore_errors: yes
-#      - debug:
-#         var: print_output_1
       - block:
          - name: "CHECKING PORT STATUS FOR {{ interface }}"
            debug:
@@ -28,6 +26,7 @@
         when: '"Current state: UP" in print_output_1.response'
 
       - name: PORT {{ interface }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface }}
@@ -42,9 +41,8 @@
 
         register: print_output_2
         ignore_errors: yes
-#      - debug:
-#          var: print_output_2
       - name: CHECKING VLAN AVAILABILITY FOR VLAN {{ vlan }} 
+        no_log: True
         comware_command:
           command:
                 - vlan {{ vlan }}
@@ -63,6 +61,7 @@
         when: '"This VLAN does not exist." in print_output_1.response'
 
       - name: VLAN & PORT ARE READY, FINALIZING CONFIGURATION
+        no_log: True
         comware_command:
            command:
                 - int {{ interface }}
@@ -81,6 +80,5 @@
         register: print_output_4
         ignore_errors: yes
       - debug:
-#          var: print_output_4:
           "msg": 
              ACCESS-PORT {{ interface }} CONFIGURED SUCCESSFULLY WITH VLAN {{ vlan }}
