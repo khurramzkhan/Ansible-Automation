@@ -6,6 +6,7 @@
 
     tasks:
       - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface1 }}   
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface1 }}
@@ -16,6 +17,7 @@
         register: print_output_1
 
       - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface2 }}
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface2 }}
@@ -26,6 +28,7 @@
         register: print_output_2
         
       - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface3 }}  
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface3 }}
@@ -36,6 +39,7 @@
         register: print_output_3
         
       - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface4 }} 
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface4 }}
@@ -51,6 +55,7 @@
              msg: "PORT {{ interface1 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
         when: '"Current state: UP" in print_output_1.response'
       - name: PORT {{ interface1 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface1 }}
@@ -75,6 +80,7 @@
              msg: "PORT {{ interface2 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
         when: '"Current state: UP" in print_output_2.response'
       - name: PORT {{ interface2 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface2 }}
@@ -99,6 +105,7 @@
              msg: "PORT {{ interface3 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
         when: '"Current state: UP" in print_output_1.response'
       - name: PORT {{ interface3 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface3 }}
@@ -123,6 +130,7 @@
              msg: "PORT {{ interface4 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
         when: '"Current state: UP" in print_output_4.response'
       - name: PORT {{ interface4 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface4 }}
