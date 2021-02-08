@@ -15,16 +15,13 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-
         register: print_output_1
       - block:
          - name: "CHECKING PORT STATUS FOR {{ interface }}"
            debug:
              msg: "PORT {{ interface }} IS CURRENTLY IN USE. PLEASE CONTACT REQUESTER"
-
          - meta: end_play
         when: '"Current state: UP" in print_output_1.response'
-
       - name: PORT {{ interface }} IS AVAILABLE, BEGINING CONFIGURATION 
         no_log: True
         comware_command:
@@ -36,11 +33,8 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-
         when: '"DOWN" in print_output_1.response'
-
         register: print_output_2
-        ignore_errors: yes
       - name: CHECKING VLAN AVAILABILITY FOR VLAN {{ vlan }} 
         no_log: True
         comware_command:
@@ -52,14 +46,11 @@
           username: "{{ username }}"
           password: "{{ password }}"
           hostname: "{{ inventory_hostname }}"
-
         when: '"This VLAN does not exist." in print_output_1.response'
         register: print_output_3
-        ignore_errors: yes
       - debug:
           msg: VLAN {{ vlan }} DOES NOT EXIST ON THIS SWITCH. CREATING A NEW L2 VLAN
         when: '"This VLAN does not exist." in print_output_1.response'
-
       - name: VLAN & PORT ARE READY, FINALIZING CONFIGURATION
         no_log: True
         comware_command:
@@ -74,11 +65,8 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-
         when: '"{{ vlan }}" in print_output_1.response'
-
         register: print_output_4
-        ignore_errors: yes
       - debug:
           "msg": 
              ACCESS-PORT {{ interface }} CONFIGURED SUCCESSFULLY WITH VLAN {{ vlan }}
