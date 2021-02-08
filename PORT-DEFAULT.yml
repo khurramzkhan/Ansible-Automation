@@ -3,11 +3,11 @@
     hosts: "{{host}}"
     gather_facts: no
     connection: local
-    ignore_errors: True
-    no_log: True
 
     tasks:
       - name: EXTRACTING INFORMATION, FIRST PORT - {{ interface }}
+        ignore_errors: True
+        no_log: True
         comware_command:
            command:
                - display interface {{ interface }} 
