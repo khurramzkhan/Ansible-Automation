@@ -37,10 +37,12 @@
         register: print_output_2
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface }}"
+           no_log: True
            debug:
              msg: "PORT {{ interface }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface }}"
         when: '"Current state: UP" in print_output.response'
       - name: PORT {{ interface }} IS DOWN & AVAILABLE, TURNING PORT TO DEFAULT 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface }}
@@ -57,10 +59,12 @@
         when: '"DOWN" in print_output.response'
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface1 }}"
+           no_log: True
            debug:
              msg: "PORT {{ interface1 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface1 }}"
         when: '"Current state: UP" in print_output_1.response'
       - name: PORT {{ interface1 }} IS DOWN & AVAILABLE, TURNING PORT TO DEFAULT 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface1 }}
@@ -81,6 +85,7 @@
              msg: "PORT {{ interface2 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface2 }}"
         when: '"Current state: UP" in print_output_2.response'
       - name: PORT {{ interface2 }} IS DOWN & AVAILABLE, TURNING PORT TO DEFAULT 
+        no_log: True
         comware_command:
            command:
                 - int {{ interface2 }}
