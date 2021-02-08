@@ -41,9 +41,10 @@
         comware_command:
            command:
                 - int {{ interface }}
-                - undo port link-mode
+                - undo port link-type
                 - undo description
                 - undo port access vlan
+                - undo stp edged-port 
                 - shut
            type: config
            username: "{{ username }}"
@@ -60,11 +61,11 @@
         comware_command:
            command:
                 - int {{ interface1 }}
-                - undo port link-mode
+                - undo port link-type
                 - undo description
                 - undo port access vlan
-                - shut 
-                - exit   
+                - undo stp edged-port 
+                - shut   
            type: config
            username: "{{ username }}"
            password: "{{ password }}"
@@ -80,9 +81,10 @@
         comware_command:
            command:
                 - int {{ interface2 }}
-                - undo port link-mode
+                - undo port link-type
                 - undo description
                 - undo port access vlan
+                - undo stp edged-port 
                 - shut 
            type: config
            username: "{{ username }}"
@@ -109,12 +111,3 @@
           msg: "PORT {{ interface2 }} IS IN USE AND NOT CONFIGURED"
         when: '"UP" in print_output_2.response'
       
-      
-
-
-
-
-
-
-
-
