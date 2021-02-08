@@ -37,7 +37,6 @@
         register: print_output_2
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface }}"
-           no_log: True
            debug:
              msg: "PORT {{ interface }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface }}"
         when: '"Current state: UP" in print_output.response'
@@ -59,7 +58,6 @@
         when: '"DOWN" in print_output.response'
       - block:
          - name: "FINALIZING CONFIGURATION FOR {{ interface1 }}"
-           no_log: True
            debug:
              msg: "PORT {{ interface1 }} IS CURRENTLY IN USE. ABORTING DEFAULT OPERATION FOR {{ interface1 }}"
         when: '"Current state: UP" in print_output_1.response'
