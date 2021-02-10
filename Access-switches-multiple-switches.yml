@@ -191,10 +191,10 @@
         
   - block:
          - name: "EVALUATING NEXT REQUEST {{ secondhost }}"
-         - meta: endplay  
-           debug:
-             msg: "PORT {{ interface4 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
-    when: '"not required" in print_output_4.response'      
+         - debug:
+             msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
+         - meta: end_play
+    when: '"not required" in '      
   - name: EVALUATING NEXT REQUEST 
     hosts: "{{secondhost}}"
     gather_facts: no
