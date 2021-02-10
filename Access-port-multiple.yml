@@ -188,3 +188,14 @@
       - debug:
           msg: "PORT {{ interface4 }} of {{ host }} IS IN USE AND NOT CONFIGURED"
         when: '"UP" in print_output_4.response'
+
+      - block:
+         - debug:
+             msg: "EVALUATING NEXT REQUEST {{ secondhost }}"
+           register: print_output_20 
+         - debug:
+             var=print_output_20
+         - debug:
+             msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
+         - meta: end_play
+        when: '"not required" in print_output_20.response'  
