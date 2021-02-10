@@ -191,8 +191,6 @@
       - debug:
           msg: "GATHERING REQUIREMENTS FOR SECOND SWITCH {{ secondhost }}"
         register: print_output_20 
-      - debug:
-           var=print_output_20
       - block:
          - debug:
              msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
