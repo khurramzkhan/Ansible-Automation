@@ -197,4 +197,4 @@
          - debug:
              msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
          - meta: end_play
-        when: '"not required" in print_output_20.response'  
+        when: '"not required" in print_output_20.msg'  
