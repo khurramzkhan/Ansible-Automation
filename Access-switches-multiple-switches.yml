@@ -255,7 +255,7 @@
                 - undo description
                 - undo port access vlan
                 - undo stp edged-port 
-                - description {{ description1 }}
+                - description {{ description5 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
                 - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
@@ -266,14 +266,14 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        when: '"DOWN" in print_output_1.response'
+        when: '"DOWN" in print_output_25.response'
         register: print_output_35
 
       - block:
          - name: "CHECKING PORT STATUS FOR {{ interface6 }}"
            debug:
              msg: "PORT {{ interface26 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
-        when: '"Current state: UP" in print_output_2.response'
+        when: '"Current state: UP" in print_output_26.response'
       - name: PORT {{ interface6 }} IS AVAILABLE, BEGINING CONFIGURATION 
         no_log: True
         comware_command:
@@ -284,7 +284,7 @@
                 - undo port access vlan
                 - undo stp edged-port 
                 - port link-mode bridge
-                - description {{ description2 }}
+                - description {{ description6 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
                 - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
@@ -313,7 +313,7 @@
                 - undo port access vlan
                 - undo stp edged-port 
                 - port link-mode bridge
-                - description {{ description3 }}
+                - description {{ description7 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
                 - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
@@ -324,7 +324,7 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        when: '"DOWN" in print_output_3.response'
+        when: '"DOWN" in print_output_27.response'
         register: print_output_37
         
       - block:
@@ -342,7 +342,7 @@
                 - undo port access vlan
                 - undo stp edged-port 
                 - port link-mode bridge
-                - description {{ description4 }}
+                - description {{ description8 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
                 - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
@@ -353,7 +353,7 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        when: '"DOWN" in print_output_4.response'
+        when: '"DOWN" in print_output_28.response'
         register: print_output_38
                       
       - debug:
