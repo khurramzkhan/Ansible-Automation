@@ -117,7 +117,7 @@
          - debug:
              msg: "NO TRUNK CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
          - meta: end_play
-        when: '"not required" in print_output_20.msg'
+           when: '"not required" in print_output_20.msg'
           
       - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface5 }}   
         no_log: True
