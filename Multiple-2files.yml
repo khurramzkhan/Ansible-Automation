@@ -95,51 +95,61 @@
       - debug:
           msg: "PORT {{ interface2 }} of {{ host }} IS IN USE AND NOT CONFIGURED"
         when: '"UP" in print_output_2.response'
-      - debug:
-          msg: "GATHERING REQUIREMENTS FOR SECOND SWITCH {{ secondhost }}"
-        register: print_output_20 
-      - block:
-         - debug:
-             msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
-         - meta: end_play
-        when: '"not required" in print_output_20.msg' 
+#      - debug:
+#          msg: "GATHERING REQUIREMENTS FOR SECOND SWITCH {{ secondhost }}"
+#        register: print_output_20 
+#      - block:
+#         - debug:
+#             msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
+#         - meta: end_play
+#        when: '"not required" in print_output_20.msg' 
    
-  - name: BEGINING TRUNK CONFIGURATION REQUEST FOR {{ secondhost }} 
+  - name: GATHERING CONFIGURATION REQUIREMENT FOR SECOND SWITCH  
     hosts: "{{secondhost}}"
     gather_facts: no
     connection: local
 
     tasks:
-          - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface5 }}   
-            no_log: True
-            comware_command:
-              command:
-               - display interface {{ interface5 }}
-              type: display
-              username: "{{ username }}"
-              password: "{{ password }}"
-              hostname: "{{ inventory_hostname }}"
-            register: print_output_25
+      - block:
+         - debug:
+             msg: "INSPECTING CONFIGURATION FOR SECOND SWITCH - {{ secondhost }}"
+           register: print_output_20
+         - debug:
+             msg: "NO TRUNK CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
+         - meta: end_play
+        when: '"not required" in print_output_20.msg'
+          
+      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface5 }}   
+        no_log: True
+        comware_command:
+           command:
+                - display interface {{ interface5 }}
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_25
 
-          - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface6 }}
-            no_log: True
-            comware_command:
-              command:
-               - display interface {{ interface6 }}
-              type: display
-              username: "{{ username }}"
-              password: "{{ password }}"
-              hostname: "{{ inventory_hostname }}"
-            register: print_output_26
-          - block:
-             - name: "CHECKING PORT STATUS FOR {{ interface5 }}"
-               debug:
-                 msg: "PORT {{ interface5 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
-            when: '"Current state: UP" in print_output_25.response'
-          - name: PORT {{ interface5 }} IS AVAILABLE, BEGINING CONFIGURATION 
-            no_log: True
-            comware_command:
-              command:
+      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface6 }}
+        no_log: True
+        comware_command:
+           command:
+                - display interface {{ interface6 }}
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_26
+        
+      - block:
+         - name: "CHECKING PORT STATUS FOR {{ interface5 }}"
+           debug:
+             msg: "PORT {{ interface5 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
+        when: '"Current state: UP" in print_output_25.response'
+      - name: PORT {{ interface5 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
+        comware_command:
+           command:
                 - int {{ interface5 }}
                 - undo port link-type
                 - undo description
@@ -152,22 +162,22 @@
                 - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
                 - stp edged-port
                 - undo shut 
-              type: config
-              username: "{{ username }}"
-              password: "{{ password }}"
-              hostname: "{{ inventory_hostname }}"
-            when: '"DOWN" in print_output_25.response'
-            register: print_output_35
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        when: '"DOWN" in print_output_25.response'
+        register: print_output_35
 
-          - block:
-             - name: "CHECKING PORT STATUS FOR {{ interface6 }}"
-               debug:
-                 msg: "PORT {{ interface6 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
-            when: '"Current state: UP" in print_output_26.response'
-          - name: PORT {{ interface6 }} IS AVAILABLE, BEGINING CONFIGURATION 
-            no_log: True
-            comware_command:
-              command:
+      - block:
+         - name: "CHECKING PORT STATUS FOR {{ interface6 }}"
+           debug:
+             msg: "PORT {{ interface6 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
+        when: '"Current state: UP" in print_output_26.response'
+      - name: PORT {{ interface6 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
+        comware_command:
+           command:
                 - int {{ interface6 }}
                 - undo port link-type
                 - undo description
@@ -181,25 +191,25 @@
                 - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
                 - stp edged-port
                 - undo shut 
-              type: config
-              username: "{{ username }}"
-              password: "{{ password }}"
-              hostname: "{{ inventory_hostname }}"
-            when: '"DOWN" in print_output_26.response'
-            register: print_output_36
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        when: '"DOWN" in print_output_26.response'
+        register: print_output_36
         
-          - debug:
-              msg: "PORT {{ interface5 }} of {{ secondhost }} IS CONFIGURED SUCCESSFULLY AS TRUNK OF {{ description5 }}"
-            when: '"DOWN" in print_output_25.response'
-          - debug:
-              msg: "PORT {{ interface6 }} of {{ secondhost }} IS CONFIGURED SUCCESSFULLY AS TRUNK OF {{ description6 }}"
-            when: '"DOWN" in print_output_26.response'
-          - debug:
-              msg: "PORT {{ interface5 }} of {{ secondhost }} IS IN USE AND NOT CONFIGURED"
-            when: '"UP" in print_output_25.response'
-          - debug:
-              msg: "PORT {{ interface6 }} of {{ secondhost }} IS IN USE AND NOT CONFIGURED"
-            when: '"UP" in print_output_26.response'
+      - debug:
+          msg: "PORT {{ interface5 }} of {{ secondhost }} IS CONFIGURED SUCCESSFULLY AS TRUNK OF {{ description5 }}"
+        when: '"DOWN" in print_output_25.response'
+      - debug:
+          msg: "PORT {{ interface6 }} of {{ secondhost }} IS CONFIGURED SUCCESSFULLY AS TRUNK OF {{ description6 }}"
+        when: '"DOWN" in print_output_26.response'
+      - debug:
+          msg: "PORT {{ interface5 }} of {{ secondhost }} IS IN USE AND NOT CONFIGURED"
+        when: '"UP" in print_output_25.response'
+      - debug:
+          msg: "PORT {{ interface6 }} of {{ secondhost }} IS IN USE AND NOT CONFIGURED"
+        when: '"UP" in print_output_26.response'
 
     
     
