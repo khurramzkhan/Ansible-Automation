@@ -98,18 +98,19 @@
       - debug:
           msg: "GATHERING REQUIREMENTS FOR SECOND SWITCH {{ secondhost }}"
         register: print_output_20 
-      - block:
-         - debug:
-             msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
-         - meta: end_play
-        when: '"not required" in print_output_20.msg' 
+  
+  - block:
+      - debug:
+          msg: "NO CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
+      - meta: end_play
+    when: '"not required" in print_output_20.msg' 
    
-      - name: BEGINING TRUNK CONFIGURATION REQUEST FOR {{ secondhost }} 
-        hosts: "{{secondhost}}"
-        gather_facts: no
-        connection: local
+  - name: BEGINING TRUNK CONFIGURATION REQUEST FOR {{ secondhost }} 
+    hosts: "{{secondhost}}"
+    gather_facts: no
+    connection: local
 
-        tasks:
+    tasks:
           - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface5 }}   
             no_log: True
             comware_command:
