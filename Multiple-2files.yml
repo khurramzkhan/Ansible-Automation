@@ -114,9 +114,12 @@
          - debug:
              msg: "INSPECTING CONFIGURATION FOR SECOND SWITCH - {{ secondhost }}"
            register: print_output_20
+#         - debug:
+#             msg: "NO TRUNK CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
          - debug:
              msg: "NO TRUNK CONFIGURATION REQUIRED ON SECOND SWITCH - ENDING REQUEST"
-         - meta: end_play
+           when: '"not required" in print_output_20.msg'
+         - meta: end_play  
            when: '"not required" in print_output_20.msg'
           
       - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface5 }}   
