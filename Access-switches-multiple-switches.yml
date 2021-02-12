@@ -272,7 +272,7 @@
       - block:
          - name: "CHECKING PORT STATUS FOR {{ interface6 }}"
            debug:
-             msg: "PORT {{ interface26 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
+             msg: "PORT {{ interface6 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
         when: '"Current state: UP" in print_output_26.response'
       - name: PORT {{ interface6 }} IS AVAILABLE, BEGINING CONFIGURATION 
         no_log: True
