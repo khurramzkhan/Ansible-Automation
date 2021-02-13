@@ -1,11 +1,11 @@
 ---
-  - name: BEGINING SERVER TRUNK PORT CONFIGURATION FOR {{ host }} 
+  - name: BEGINING SERVER TRUNK CONFIGURATION FOR {{ host }} 
     hosts: "{{host}}"
     gather_facts: no
     connection: local
 
     tasks:
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface1 }}   
+      - name: EXTRACTING CURRENT CONFIGURATION FOR FIRST INTERFACE {{ interface1 }}   
         no_log: True
         comware_command:
            command:
@@ -16,7 +16,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
 
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface2 }}
+      - name: EXTRACTING CURRENT CONFIGURATION FOR SECOND INTERFACE {{ interface2 }}
         no_log: True
         comware_command:
            command:
@@ -27,7 +27,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_2
         
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface3 }}  
+      - name: EXTRACTING CURRENT CONFIGURATION FOR THIRD INTERFACE {{ interface3 }}  
         no_log: True
         comware_command:
            command:
@@ -38,7 +38,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_3
         
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface4 }} 
+      - name: EXTRACTING CURRENT CONFIGURATION FOR FOURTH INTERFACE {{ interface4 }} 
         no_log: True
         comware_command:
            command:
