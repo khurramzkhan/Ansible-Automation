@@ -28,25 +28,22 @@
           print_output_4: "{{ print_output_2[16] | regex_replace('\\r\\n','') }}"
       - debug:
           var=print_output_4
-      - name: PORT {{ interface1 }} IS AVAILABLE, BEGINING CONFIGURATION 
-        no_log: True
-        comware_command:
-           command:
-                - int {{ interface1 }}
-                - undo port link-type
-                - undo description
-                - undo port access vlan
-                - undo stp edged-port 
-                - description {{ description1 }}
-                - port link-type trunk
-                - undo port trunk permit vlan 1
-                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-                - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
-                - stp edged-port
-                - undo shut 
-           type: config
-           username: "{{ username }}"
-           password: "{{ password }}"
-           hostname: "{{ inventory_hostname }}"
-        when: '"DOWN" in print_output_1.response'
-        register: print_output_5
+      - set_fact:
+          print_output_5: "{{ print_output_2[9] | regex_replace('\\r\\n','') }}"
+      - debug:
+          var=print_output_5
+          
+#      - name: BEGINING NTP CONFIGURATION  
+#        no_log: True
+#        comware_command:
+#           command:
+#                - undo ntp-service enable
+#                - ntp-service source {{ vlan-interface }}
+#                - ntp-service unicast-server 138.35.151.48 priority
+#               - ntp-service unicast-server 138.35.151.112
+#           type: config
+#           username: "{{ username }}"
+#           password: "{{ password }}"
+#           hostname: "{{ inventory_hostname }}"
+#        when: '"DOWN" in print_output_1.response'
+#        register: print_output_5
