@@ -1,11 +1,11 @@
 ---
-  - name: BEGINING TRUNK CONFIGURATION REQUEST FOR {{ host }}  
+  - name: BEGINING SERVER TRUNK CONFIGURATION FOR {{ host }}  
     hosts: "{{host}}"
     gather_facts: no
     connection: local
 
     tasks:
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface1 }}   
+      - name: EXTRACTING CURRENT CONFIGURATION FOR FIRST INTERFACE {{ interface1 }}   
         no_log: True
         comware_command:
            command:
@@ -16,7 +16,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
 
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface2 }}
+      - name: EXTRACTING CURRENT CONFIGURATION FOR SECOND INTERFACE {{ interface2 }}
         no_log: True
         comware_command:
            command:
@@ -97,13 +97,13 @@
         when: '"UP" in print_output_2.response'
 
   
-  - name: GATHERING CONFIGURATION REQUIREMENT FOR SECOND SWITCH - {{secondhost}}  
+  - name: BEGINING SERVER TRUNK CONFIGURATION FOR {{secondhost}}  
     hosts: "{{secondhost}}"
     gather_facts: no
     connection: local
 
     tasks:
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface5 }}   
+      - name: EXTRACTING CURRENT CONFIGURATION FOR FIRST INTERFACE {{ interface5 }}   
         no_log: True
         comware_command:
            command:
@@ -114,7 +114,7 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_25
 
-      - name: EXTRACTING CURRENT CONFIGURATION FOR INTERFACE {{ interface6 }}
+      - name: EXTRACTING CURRENT CONFIGURATION FOR SECOND INTERFACE {{ interface6 }}
         no_log: True
         comware_command:
            command:
@@ -193,7 +193,5 @@
         when: '"UP" in print_output_25.response'
       - debug:
           msg: "PORT {{ interface6 }} of {{ secondhost }} IS IN USE AND NOT CONFIGURED"
-        when: '"UP" in print_output_26.response'
-
-    
+        when: '"UP" in print_output_26.response'  
     
