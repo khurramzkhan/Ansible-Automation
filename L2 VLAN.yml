@@ -1,0 +1,157 @@
+---
+  - name: BEGINING L2 VLAN CONFIGURATION FOR {{ host }}  
+    hosts: "{{host}}"
+    gather_facts: no
+    connection: local
+
+    tasks:
+      - name: EXTRACTING CURRENT CONFIGURATION FOR FIRST VLAN {{ vlan1 }}   
+        no_log: True
+        comware_command:
+           command:
+               - display vlan {{ vlan1 }}
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_1
+
+      - name: EXTRACTING CURRENT CONFIGURATION FOR SECOND VLAN {{ vlan2 }}
+        no_log: True
+        comware_command:
+           command:
+               - display vlan {{ vlan2 }}
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_2
+      - block:
+         - name: "CHECKING STATUS FOR {{ vlan1 }}"
+           debug:
+             msg: " VLAN {{ vlan1 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS VLAN"
+        when: '"VLAN ID" in print_output_1.response'
+      - name: VLAN {{ vlan1 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
+        comware_command:
+           command:
+                - vlan {{ vlan1 }}
+                - name {{ vlanname1 }}
+                - return
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        when: '"This VLAN does not exist." in print_output_1.response'
+        register: print_output_5
+
+      - block:
+         - name: "CHECKING STATUS FOR {{ vlan2 }}"
+           debug:
+             msg: " VLAN {{ vlan2 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS VLAN"
+        when: '"VLAN ID" in print_output_2.response'
+      - name: VLAN {{ vlan2 }} IS AVAILABLE, BEGINING CONFIGURATION
+        no_log: True
+        comware_command:
+           command:
+                - vlan {{ vlan2 }}
+                - name {{ vlanname2 }}
+                - return
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        when: '"This VLAN does not exist." in print_output_2.response'
+        register: print_output_6
+        
+      - debug:
+          msg: "VLAN {{ vlan1 }} with description {{ name1 }} IS CONFIGURED SUCCESSFULLY ON {{ host }}"
+        when: '"This VLAN does not exist." in print_output_1.response'
+      - debug:
+          msg: "VLAN {{ vlan2 }} with description {{ name2 }} IS CONFIGURED SUCCESSFULLY ON {{ host }}"
+        when: '"This VLAN does not exist." in print_output_2.response'
+      - debug:
+          msg: "VLAN {{ vlan1 }} IS CURRENTLY IN USE AND NOT CONFIGURED"
+        when: '"VLAN ID" in print_output_1.response'
+      - debug:
+          msg: "VLAN {{ vlan2 }} IS CURRENTLY IN USE AND NOT CONFIGURED"
+        when: '"VLAN ID" in print_output_2.response'
+
+  
+  - name: BEGINING L2 VLAN CONFIGURATION FOR {{ secondhost }} 
+    hosts: "{{secondhost}}"
+    gather_facts: no
+    connection: local
+
+    tasks:
+      - name: EXTRACTING CURRENT CONFIGURATION FOR FIRST VLAN {{ vlan11 }}  
+        no_log: True
+        comware_command:
+           command:
+                - display vlan {{ vlan11 }}
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_11
+
+      - name: EXTRACTING CURRENT CONFIGURATION FOR SECOND VLAN {{ vlan22 }} 
+        no_log: True
+        comware_command:
+           command:
+                - display vlan {{ vlan22 }}
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_22
+        
+      - block:
+         - name: "CHECKING STATUS FOR {{ vlan11 }}"
+           debug:
+             msg: " VLAN {{ vlan11 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS VLAN"
+        when: '"VLAN ID" in print_output_11.response'
+      - name: VLAN {{ vlan11 }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
+        comware_command:
+           command:
+                - vlan {{ vlan11 }}
+                - name {{ vlanname11 }}
+                - return
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        when: '"This VLAN does not exist." in print_output_11.response'
+        register: print_output_31
+
+      - block:
+         - name: "CHECKING STATUS FOR {{ vlan22 }}"
+           debug:
+             msg: "VLAN {{ vlan22 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS VLAN"
+        when: '"VLAN ID" in print_output_22.response'
+      - name: VLAN {{ vlan22 }} IS AVAILABLE, BEGINING CONFIGURATION  
+        no_log: True
+        comware_command:
+           command:
+                - vlan {{ vlan22 }}
+                - name {{ vlanname22 }}
+                - return
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        when: '"This VLAN does not exist." in print_output_22.response'
+        register: print_output_32
+      - debug:
+          msg: "VLAN {{ vlan11 }} with description {{ name11 }} IS CONFIGURED SUCCESSFULLY ON {{ secondhost }}"
+        when: '"This VLAN does not exist." in print_output_11.response'
+      - debug:
+          msg: "VLAN {{ vlan22 }} with description {{ name22 }} IS CONFIGURED SUCCESSFULLY ON {{ secondhost }}"
+        when: '"This VLAN does not exist." in print_output_22.response'
+      - debug:
+          msg: "VLAN {{ vlan11 }} IS CURRENTLY IN USE AND NOT CONFIGURED"
+        when: '"VLAN ID" in print_output_11.response'
+      - debug:
+          msg: "VLAN {{ vlan22 }} IS CURRENTLY IN USE AND NOT CONFIGURED"
+        when: '"VLAN ID" in print_output_22.response'
