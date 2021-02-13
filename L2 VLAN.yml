@@ -65,10 +65,10 @@
         register: print_output_4
         
       - debug:
-          msg: "VLAN {{ vlan1 }} with description {{ name1 }} IS CONFIGURED SUCCESSFULLY ON {{ host }}"
+          msg: "VLAN {{ vlan1 }} with description {{ vlanname1 }} IS CONFIGURED SUCCESSFULLY ON {{ host }}"
         when: '"This VLAN does not exist." in print_output_1.response'
       - debug:
-          msg: "VLAN {{ vlan2 }} with description {{ name2 }} IS CONFIGURED SUCCESSFULLY ON {{ host }}"
+          msg: "VLAN {{ vlan2 }} with description {{ vlanname2 }} IS CONFIGURED SUCCESSFULLY ON {{ host }}"
         when: '"This VLAN does not exist." in print_output_2.response'
       - debug:
           msg: "VLAN {{ vlan1 }} IS CURRENTLY IN USE AND NOT CONFIGURED"
@@ -144,10 +144,10 @@
         when: '"This VLAN does not exist." in print_output_22.response'
         register: print_output_32
       - debug:
-          msg: "VLAN {{ vlan11 }} with description {{ name11 }} IS CONFIGURED SUCCESSFULLY ON {{ secondhost }}"
+          msg: "VLAN {{ vlan11 }} with description {{ vlanname11 }} IS CONFIGURED SUCCESSFULLY ON {{ secondhost }}"
         when: '"This VLAN does not exist." in print_output_11.response'
       - debug:
-          msg: "VLAN {{ vlan22 }} with description {{ name22 }} IS CONFIGURED SUCCESSFULLY ON {{ secondhost }}"
+          msg: "VLAN {{ vlan22 }} with description {{ vlanname22 }} IS CONFIGURED SUCCESSFULLY ON {{ secondhost }}"
         when: '"This VLAN does not exist." in print_output_22.response'
       - debug:
           msg: "VLAN {{ vlan11 }} IS CURRENTLY IN USE AND NOT CONFIGURED"
