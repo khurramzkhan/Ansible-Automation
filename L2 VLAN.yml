@@ -43,7 +43,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         when: '"This VLAN does not exist." in print_output_1.response'
-        register: print_output_5
+        register: print_output_3
 
       - block:
          - name: "CHECKING STATUS FOR {{ vlan2 }}"
@@ -62,7 +62,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         when: '"This VLAN does not exist." in print_output_2.response'
-        register: print_output_6
+        register: print_output_4
         
       - debug:
           msg: "VLAN {{ vlan1 }} with description {{ name1 }} IS CONFIGURED SUCCESSFULLY ON {{ host }}"
