@@ -28,10 +28,10 @@
           print_output_4: "{{ print_output_2[16] | regex_replace('\\r\\n','') }}"
       - debug:
           var=print_output_4
-      - set_fact:
-          print_output_5: "{{ print_output_2[9] | regex_replace('\\r\\n','') }}"
-      - debug:
-          var=print_output_5
+   #   - set_fact:
+   #       print_output_5: "{{ print_output_2[9] | regex_replace('\\r\\n','') }}"
+   #   - debug:
+   #       var=print_output_5
           
       - name: BEGINING NTP CONFIGURATION  
         no_log: True
@@ -42,7 +42,7 @@
                 - undo ntp-service unicast-server {{ print_output_3 }}
                 - undo ntp-service unicast-server {{ print_output_4 }}
                 - ntp-service enable
-                - ntp-service source 
+                - ntp-service source {{ ntpvlan }}
                 - ntp-service unicast-server {{ ntp1 }} priority
                 - ntp-service unicast-server {{ ntp2 }}
            type: config
