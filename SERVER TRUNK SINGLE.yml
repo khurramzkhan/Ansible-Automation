@@ -66,8 +66,8 @@
                 - description {{ description1 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
-                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-                - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
+               # - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
+               # - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
                 - stp edged-port
                 - undo shut 
            type: config
@@ -153,8 +153,8 @@
                 - description {{ description4 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
-               # - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-               # - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
+                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
+                - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
                 - stp edged-port
                 - undo shut 
            type: config
