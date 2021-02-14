@@ -33,17 +33,25 @@
       - debug:
           var=print_output_5
           
-#      - name: BEGINING NTP CONFIGURATION  
-#        no_log: True
-#        comware_command:
-#           command:
-#                - undo ntp-service enable
-#                - ntp-service source {{ vlan-interface }}
-#                - ntp-service unicast-server 138.35.151.48 priority
-#               - ntp-service unicast-server 138.35.151.112
-#           type: config
-#           username: "{{ username }}"
-#           password: "{{ password }}"
-#           hostname: "{{ inventory_hostname }}"
-#        when: '"DOWN" in print_output_1.response'
-#        register: print_output_5
+      - name: BEGINING NTP CONFIGURATION  
+        no_log: True
+        comware_command:
+           command:
+                - undo ntp-service enable
+                - undo ntp-service source 
+                - undo ntp-service unicast-server {{ print_output_3 }}
+                - undo ntp-service unicast-server {{ print_output_4 }}
+                - ntp-service enable
+                - ntp-service source 
+                - ntp-service unicast-server {{ ntp1 }} priority
+                - ntp-service unicast-server {{ ntp2 }}
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_5
+
+      - pause: seconds=60
+
+
+
