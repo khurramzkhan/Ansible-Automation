@@ -110,7 +110,7 @@
          - name: "CHECKING PORT STATUS FOR {{ interface3 }}"
            debug:
              msg: "PORT {{ interface3 }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
-        when: '"Current state: UP" in print_output_1.response'
+        when: '"Current state: UP" in print_output_3.response'
       - name: PORT {{ interface3 }} IS AVAILABLE, BEGINING CONFIGURATION 
         no_log: True
         comware_command:
