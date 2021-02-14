@@ -103,7 +103,7 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        when: '"DOWN" in print_output_1.response'
+        when: '"DOWN" in print_output_2.response'
         register: print_output_6
                
       - block:
