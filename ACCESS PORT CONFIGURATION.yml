@@ -1,11 +1,11 @@
 ---
-  - name: ACCESS-PORT CONFIGURATION REQUEST 
+  - name: BEGINING ACCESS-PORT CONFIGURATION REQUEST FOR {{ host }}
     hosts: "{{host}}"
     gather_facts: no
     connection: local
 
     tasks:
-      - name: BEGINING PORT CONFIGURATION  
+      - name: EXTRACTING CURRENT CONFIGURATION FOR {{ interface }}  
         no_log: True
         comware_command:
            command:
@@ -19,7 +19,7 @@
       - block:
          - name: "CHECKING PORT STATUS FOR {{ interface }}"
            debug:
-             msg: "PORT {{ interface }} IS CURRENTLY IN USE. PLEASE CONTACT REQUESTER"
+             msg: "PORT {{ interface }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
          - meta: end_play
         when: '"Current state: UP" in print_output_1.response'
       - name: PORT {{ interface }} IS AVAILABLE, BEGINING CONFIGURATION 
@@ -69,4 +69,4 @@
         register: print_output_4
       - debug:
           "msg": 
-             ACCESS-PORT {{ interface }} CONFIGURED SUCCESSFULLY WITH VLAN {{ vlan }}
+             ACCESS-PORT {{ interface }} CONFIGURED SUCCESSFULLY WITH VLAN {{ vlan }} ON {{ host }}
