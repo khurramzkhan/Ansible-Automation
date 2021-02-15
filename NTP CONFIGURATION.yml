@@ -25,7 +25,7 @@
       - debug:
           var=print_output_2
       - set_fact:
-          print_output_3: "{{ print_output_2[7] | regex_replace('\\r\\n','') }}"
+          print_output_3: "{{ print_output_2 | regex_replace('\\r\\n','') }}"
         when: '"unicast-server" in print_output_1.response'
       - debug:
           var=print_output_3
