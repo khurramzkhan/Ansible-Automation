@@ -26,7 +26,7 @@
           var=print_output_2
       - set_fact:
           print_output_3: "{{ print_output_2[8] | regex_replace('\\r\\n','') }}"
-        when: "(print_output_2.response[8] !='')"
+        when: print_output_2[8] !=''
       - debug:
           var=print_output_3
    #   - set_fact:
