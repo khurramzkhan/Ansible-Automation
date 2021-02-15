@@ -25,8 +25,8 @@
       - debug:
           var=print_output_2
       - set_fact:
-          print_output_3: "{{ print_output_2 | regex_replace('\\r\\n','') }}"
-        when: '"unicast-server" in print_output_1.response'
+          print_output_3: "{{ print_output_2[8] | regex_replace('\\r\\n','') }}"
+        when: "(print_output_2.response[8] !='')"
       - debug:
           var=print_output_3
    #   - set_fact:
@@ -57,9 +57,9 @@
    #     register: print_output_5
    #     when: '"enable" in print_output_1.response'
       
-       - name: BEGINING NTP CONFIGURATION WHEN NOT ENABLE 
-         #no_log: True
-         comware_command:
+      - name: BEGINING NTP CONFIGURATION WHEN NOT ENABLE 
+        no_log: True
+        comware_command:
            command:
                 - undo ntp-service enable
                 - undo ntp-service source 
@@ -71,8 +71,8 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-         register: print_output_5  
-#        when: '"enable" not in print_output_1.response'
+        register: print_output_5  
+        when: '"unicast-server" not in print_output_1.response'
       
     #  - name: REMOVING OLD CONFIG 
     #    no_log: True
@@ -86,7 +86,7 @@
      #      password: "{{ password }}"
      #      hostname: "{{ inventory_hostname }}"
      #  register: print_output_5  
-#      - pause: seconds=60
+      - pause: seconds=60
       - name: VERIFYING RESULTS AFTER APPLYING NTP CONFIGURATION    
         no_log: True
         comware_command:
