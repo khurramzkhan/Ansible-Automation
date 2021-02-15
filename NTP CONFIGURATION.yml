@@ -48,7 +48,7 @@
                 - undo ntp-service source 
                 - undo ntp-service unicast-server {{ print_output_3 }}
                 - undo ntp-service unicast-server {{ print_output_4 }}
-                - undo ntp-service unicast-server {{ print_output_5 }}
+              #  - undo ntp-service unicast-server {{ print_output_5 }}
                 - ntp-service enable
                 - ntp-service source {{ ntpvlan }}
                 - ntp-service unicast-server {{ ntp1 }} priority
