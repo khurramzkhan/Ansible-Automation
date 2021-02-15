@@ -57,9 +57,9 @@
    #     register: print_output_5
    #     when: '"enable" in print_output_1.response'
       
-      - name: BEGINING NTP CONFIGURATION WHEN NOT ENABLE 
-        #no_log: True
-        comware_command:
+       - name: BEGINING NTP CONFIGURATION WHEN NOT ENABLE 
+         #no_log: True
+         comware_command:
            command:
                 - undo ntp-service enable
                 - undo ntp-service source 
@@ -71,21 +71,21 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        register: print_output_5  
+         register: print_output_5  
 #        when: '"enable" not in print_output_1.response'
       
-      - name: REMOVING OLD CONFIG 
+    #  - name: REMOVING OLD CONFIG 
     #    no_log: True
-        when: "(item not in ntp_servers)"
-        with_items: "{{ print_output_3 }}"
-        comware_command:
-           command:
-                - "undo ntp-service unicast-server {{ item }}"
-           type: config
-           username: "{{ username }}"
-           password: "{{ password }}"
-           hostname: "{{ inventory_hostname }}"
-        register: print_output_5  
+    #    when: "(item not in ntp_servers)"
+    #    with_items: "{{ print_output_3 }}"
+    #    comware_command:
+    #       command:
+    #            - "undo ntp-service unicast-server {{ item }}"
+    #       type: config
+    #      username: "{{ username }}"
+     #      password: "{{ password }}"
+     #      hostname: "{{ inventory_hostname }}"
+     #  register: print_output_5  
 #      - pause: seconds=60
       - name: VERIFYING RESULTS AFTER APPLYING NTP CONFIGURATION    
         no_log: True
