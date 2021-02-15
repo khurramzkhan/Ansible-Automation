@@ -19,17 +19,17 @@
           var=print_output_1
       - set_fact:
           print_output_2: "{{ print_output_1.response.split(' ') }}"
-        when: '"ntp" in print_output_1.response  
+        when: '"ntp" in print_output_1.response'  
       - debug:
           var=print_output_2
       - set_fact:
           print_output_3: "{{ print_output_2[12] | regex_replace('\\r\\n','') }}"
-        when: '"ntp" in print_output_1.response
+        when: '"ntp" in print_output_1.response'
       - debug:
           var=print_output_3
       - set_fact:
           print_output_4: "{{ print_output_2[16] | regex_replace('\\r\\n','') }}"
-        when: '"ntp" in print_output_1.response
+        when: '"ntp" in print_output_1.response'
       - debug:
           var=print_output_4
    #   - set_fact:
