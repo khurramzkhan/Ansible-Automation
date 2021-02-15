@@ -75,7 +75,7 @@
 #        when: '"enable" not in print_output_1.response'
       
       - name: REMOVING OLD CONFIG 
-        no_log: True
+    #    no_log: True
         when: "(item not in ntp_servers)"
         with_items: "{{ print_output_3 }}"
         comware_command:
