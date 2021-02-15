@@ -25,37 +25,40 @@
       - debug:
           var=print_output_2
       - set_fact:
-          print_output_3: "{{ print_output_2[8] | regex_replace('\\r\\n','') }}"
-        when: print_output_2[8] !=''
+          print_output_3: "{{ print_output_2[7] | regex_replace('\\r\\n','') }}"
+        when: print_output_2[7] !=''
       - debug:
           var=print_output_3
-   #   - set_fact:
-   #       print_output_4: "{{ print_output_2[16] | regex_replace('\\r\\n','') }}"
-   #     when: '"unicast-server" in print_output_1.response'
-   #   - debug:
-   #       var=print_output_4
-   #   - set_fact:
-   #       print_output_5: "{{ print_output_2[9] | regex_replace('\\r\\n','') }}"
-   #   - debug:
-   #       var=print_output_5
-   #   - name: BEGINING NTP CONFIGURATION WHEN ENABLE  
-   #     no_log: True
-   #     comware_command:
-   #        command:
-   #             - undo ntp-service enable
-   #             - undo ntp-service source 
-   #             - undo ntp-service unicast-server {{ print_output_3 }}
-   #             - undo ntp-service unicast-server {{ print_output_4 }}
-   #             - ntp-service enable
-   #             - ntp-service source {{ ntpvlan }}
-   #             - ntp-service unicast-server {{ ntp1 }} priority
-   #             - ntp-service unicast-server {{ ntp2 }}
-   #        type: config
-   #        username: "{{ username }}"
-   #        password: "{{ password }}"
-   #        hostname: "{{ inventory_hostname }}"
-   #     register: print_output_5
-   #     when: '"enable" in print_output_1.response'
+      - set_fact:
+          print_output_4: "{{ print_output_2[10] | regex_replace('\\r\\n','') }}"
+        when: print_output_2[10] !=''
+      - debug:
+          var=print_output_4
+      - set_fact:
+          print_output_5: "{{ print_output_2[14] | regex_replace('\\r\\n','') }}"
+        when: print_output_2[14] !=''
+      - debug:
+          var=print_output_5
+   
+      - name: BEGINING NTP CONFIGURATION WHEN ENABLE  
+        no_log: True
+        comware_command:
+           command:
+                - undo ntp-service enable
+                - undo ntp-service source 
+                - undo ntp-service unicast-server {{ print_output_3 }}
+                - undo ntp-service unicast-server {{ print_output_4 }}
+                - undo ntp-service unicast-server {{ print_output_5 }}
+                - ntp-service enable
+                - ntp-service source {{ ntpvlan }}
+                - ntp-service unicast-server {{ ntp1 }} priority
+                - ntp-service unicast-server {{ ntp2 }}
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_5
+        when: '"enable" in print_output_1.response'
       
       - name: BEGINING NTP CONFIGURATION WHEN NOT ENABLE 
         no_log: True
@@ -72,7 +75,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_5  
-        when: '"unicast-server" not in print_output_1.response'
+    #    when: '"unicast-server" not in print_output_1.response'
       
     #  - name: REMOVING OLD CONFIG 
     #    no_log: True
