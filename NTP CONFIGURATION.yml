@@ -68,7 +68,7 @@
 
       - debug:
           msg: "NTP CONFIGURATION APPLIED SUCCESSFULLY. CLOCK STATUS IS SYNCRONIZED"
-        when: "synchronized" in print_output_6.response'
+        when: '"synchronized" in print_output_6.response'
       - debug:
           msg: "NTP CONFIGURATION APPLIED UNSUCCESSFULLY. CLOCK STATUS IS UNSYNCRONIZED. PLEASE REFER TO ENGINEERING"
-        when: "unsynchronized" in print_output_6.response'
+        when: '"unsynchronized" in print_output_6.response'
