@@ -76,7 +76,7 @@
       
       - name: REMOVING OLD CONFIG 
     #    no_log: True
-        when: "(item not in ntp_servers)"
+        when: "(item not in ntp_config)"
         with_items: "{{ print_output_3 }}"
         comware_command:
            command:
