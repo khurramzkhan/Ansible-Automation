@@ -58,7 +58,7 @@
    #     when: '"enable" in print_output_1.response'
       
       - name: BEGINING NTP CONFIGURATION WHEN NOT ENABLE 
-        no_log: True
+        #no_log: True
         comware_command:
            command:
                 - undo ntp-service enable
