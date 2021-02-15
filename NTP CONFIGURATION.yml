@@ -37,8 +37,8 @@
    #   - debug:
    #       var=print_output_5
           
-      - name: BEGINING NTP CONFIGURATION  
-       # no_log: True
+      - name: BEGINING NTP CONFIGURATION WHEN ENABLE  
+        no_log: True
         comware_command:
            command:
                 - undo ntp-service enable
@@ -54,6 +54,25 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_5
+        when: '"enable" in print_output_1.response'
+      
+      - name: BEGINING NTP CONFIGURATION WHEN NOT ENABLE 
+        no_log: True
+        comware_command:
+           command:
+                - undo ntp-service enable
+                - undo ntp-service source 
+                - ntp-service enable
+                - ntp-service source {{ ntpvlan }}
+                - ntp-service unicast-server {{ ntp1 }} priority
+                - ntp-service unicast-server {{ ntp2 }}
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_5  
+        when: '"enable" not in print_output_1.response'
+      
       - pause: seconds=60
       - name: VERIFYING RESULTS AFTER APPLYING NTP CONFIGURATION    
         no_log: True
