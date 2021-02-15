@@ -19,19 +19,19 @@
           var=print_output_1
       - set_fact:
           print_output_2: "{{ print_output_1.response.split(' ') }}"
-        when: '"ntp-service" in print_output_1.response'  
-      - debug:
-          var=print_output_2
+        when: '"enable" in print_output_1.response'  
+    #  - debug:
+    #      var=print_output_2
       - set_fact:
           print_output_3: "{{ print_output_2[12] | regex_replace('\\r\\n','') }}"
-        when: '"ntp-service" in print_output_1.response'
-      - debug:
-          var=print_output_3
+        when: '"enable" in print_output_1.response'
+     # - debug:
+     #     var=print_output_3
       - set_fact:
           print_output_4: "{{ print_output_2[16] | regex_replace('\\r\\n','') }}"
-        when: '"ntp-service" in print_output_1.response'
-      - debug:
-          var=print_output_4
+        when: '"enable" in print_output_1.response'
+     # - debug:
+     #     var=print_output_4
    #   - set_fact:
    #       print_output_5: "{{ print_output_2[9] | regex_replace('\\r\\n','') }}"
    #   - debug:
