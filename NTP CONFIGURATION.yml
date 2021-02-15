@@ -38,7 +38,7 @@
    #       var=print_output_5
           
       - name: BEGINING NTP CONFIGURATION  
-        no_log: True
+       # no_log: True
         comware_command:
            command:
                 - undo ntp-service enable
