@@ -9,7 +9,7 @@
         no_log: True
         comware_command:
            command:
-               - display current-configuration | i unicast-server
+               - display current-configuration | i ntp
            type: display
            username: "{{ username }}"
            password: "{{ password }}"
@@ -19,17 +19,17 @@
           var=print_output_1.response
       - set_fact:
           print_output_2: "{{ print_output_1.response.split(' ') }}"
-        when: '"unicast-server" in print_output_1.response'  
+        when: '"enable" in print_output_1.response'  
   #    - debug:
   #        var=print_output_2
       - set_fact:
           print_output_3: "{{ print_output_2[7] | regex_replace('\\r\\n','') }}"
-        when: '"unicast-server" in print_output_1.response' 
+        when: '"enable" in print_output_1.response'  
    #   - debug:
    #       var=print_output_3
       - set_fact:
           print_output_4: "{{ print_output_2[11] | regex_replace('\\r\\n','') }}"
-        when: '"unicast-server" in print_output_1.response' 
+        when: '"enable" in print_output_1.response'  
    #   - debug:
    #       var=print_output_4
 #      - set_fact:
@@ -38,7 +38,7 @@
 #      - debug:
 #          var=print_output_5
    
-      - name: REMOVING PREVIOUS NTP CONFIGURATIONS AND CONFIGURING NEW SERVERS   
+      - name: REMOVING PREVIOUS NTP CONFIGURATIONS AND CONFIGURING NEW NTP SERVERS   
         no_log: True
         comware_command:
            command:
@@ -55,7 +55,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_6
-        when: '"unicast-server" in print_output_1.response'
+        when: '"enable" in print_output_1.response' 
    #   - debug:
    #       var=print_output_6
       
@@ -74,7 +74,7 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_7
-        when: '"unicast-server" not in print_output_1.response'
+        when: '"enable" not in print_output_1.response' 
    #   - debug:
    #       var=print_output_7
       - pause: seconds=60
