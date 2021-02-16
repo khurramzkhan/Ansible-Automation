@@ -15,8 +15,8 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
-      - debug:
-          var=print_output_1.response
+  #    - debug:
+  #        var=print_output_1.response
       - set_fact:
           print_output_2: "{{ print_output_1.response.split(' ') }}"
         when: '"enable" in print_output_1.response'  
