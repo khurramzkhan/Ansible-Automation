@@ -15,30 +15,30 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
-      - debug:
-          var=print_output_1.response
+ #     - debug:
+ #         var=print_output_1.response
       - set_fact:
           print_output_2: "{{ print_output_1.response.split(' ') }}"
         when: '"unicast-server" in print_output_1.response'  
-      - debug:
-          var=print_output_2
+  #    - debug:
+  #        var=print_output_2
       - set_fact:
           print_output_3: "{{ print_output_2[7] | regex_replace('\\r\\n','') }}"
         when: '"unicast-server" in print_output_1.response' 
-      - debug:
-          var=print_output_3
+   #   - debug:
+   #       var=print_output_3
       - set_fact:
           print_output_4: "{{ print_output_2[11] | regex_replace('\\r\\n','') }}"
         when: '"unicast-server" in print_output_1.response' 
-      - debug:
-          var=print_output_4
+   #   - debug:
+   #       var=print_output_4
 #      - set_fact:
 #          print_output_5: "{{ print_output_2[14] | regex_replace('\\r\\n','') }}"
 #        when: '"unicast-server" in print_output_1.response' 
 #      - debug:
 #          var=print_output_5
    
-      - name: REMOVING PREVIOUS NTP CONFIGURATIONS  
+      - name: REMOVING PREVIOUS NTP CONFIGURATIONS AND CONFIGURING NEW SERVERS   
         no_log: True
         comware_command:
            command:
