@@ -56,8 +56,8 @@
            hostname: "{{ inventory_hostname }}"
         register: print_output_6
         when: '"unicast-server" in print_output_1.response'
-      - debug:
-          var=print_output_6
+   #   - debug:
+   #       var=print_output_6
       
       - name: BEGINING NTP CONFIGURATION   
         no_log: True
@@ -73,10 +73,10 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        register: print_output_6
+        register: print_output_7
         when: '"unicast-server" not in print_output_1.response'
-      - debug:
-          var=print_output_6
+   #   - debug:
+   #       var=print_output_7
       - pause: seconds=60
       
       - name: VERIFYING RESULTS AFTER APPLYING NTP CONFIGURATION    
@@ -88,12 +88,12 @@
            username: "{{ username }}"
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
-        register: print_output_6
+        register: print_output_8
 
       - debug:
           msg: "NTP CONFIGURATION APPLIED SUCCESSFULLY. CLOCK STATUS IS SYNCRONIZED"
-        when: '"synchronized" in print_output_6.response'
+        when: '"synchronized" in print_output_8.response'
       - debug:
           msg: "NTP CONFIGURATION APPLIED UNSUCCESSFULLY. CLOCK STATUS IS UNSYNCRONIZED. PLEASE REFER TO ENGINEERING"
-        when: '"unsynchronized" in print_output_6.response'
+        when: '"unsynchronized" in print_output_8.response'
 
