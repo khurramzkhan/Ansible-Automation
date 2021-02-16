@@ -29,7 +29,7 @@
          - meta: end_play
         when: '"This VLAN does not exist" in print_output_1.response'
       - name: PORT {{ interface }} AND VLAN {{ vlan }} IS AVAILABLE, BEGINING CONFIGURATION 
-        no_log: True
+        #no_log: True
         comware_command:
            command:
                 - int {{ interface }}
