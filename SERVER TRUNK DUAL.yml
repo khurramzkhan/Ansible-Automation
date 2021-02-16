@@ -1,5 +1,5 @@
 ---
-  - name: BEGINING SERVER TRUNK CONFIGURATION FOR {{ host }}  
+  - name: BEGINING SERVER TRUNK CONFIGURATION FOR ZONE 1 VLANS on {{ host }}  
     hosts: "{{host}}"
     gather_facts: no
     connection: local
@@ -43,8 +43,7 @@
                 - description {{ description1 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
-                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-                - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
+                - port trunk permit vlan 10 20 30 
                 - stp edged-port
                 - undo shut 
            type: config
@@ -72,8 +71,7 @@
                 - description {{ description2 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
-                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-                - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
+                - port trunk permit vlan 10 20 30 
                 - stp edged-port
                 - undo shut 
            type: config
@@ -97,7 +95,7 @@
         when: '"UP" in print_output_2.response'
 
   
-  - name: BEGINING SERVER TRUNK CONFIGURATION FOR {{secondhost}}  
+  - name: BEGINING SERVER TRUNK CONFIGURATION FOR ZONE 1 VLANS on {{ secondhost }}  
     hosts: "{{secondhost}}"
     gather_facts: no
     connection: local
@@ -142,8 +140,7 @@
                 - description {{ description5 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
-                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-                - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
+                - port trunk permit vlan 10 20 30
                 - stp edged-port
                 - undo shut 
            type: config
@@ -171,8 +168,7 @@
                 - description {{ description6 }}
                 - port link-type trunk
                 - undo port trunk permit vlan 1
-                - port trunk permit vlan 90 100 to 279 282 to 286 928 1100 to 1123 1200 to 1261 1267 to 1286 1291 to 1310 1650 to 1660 1700 to 1707
-                - port trunk permit vlan 1750 to 1757 2000 to 2031 2100 to 2131 2200 to 2231 3011 3035 4053 to 4054
+                - port trunk permit vlan 10 20 30
                 - stp edged-port
                 - undo shut 
            type: config
