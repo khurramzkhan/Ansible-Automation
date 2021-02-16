@@ -1,0 +1,51 @@
+---
+  - name: BEGINING ACCESS-PORT CONFIGURATION REQUEST FOR {{ host }}
+    hosts: "{{host}}"
+    gather_facts: no
+    connection: local
+
+    tasks:
+      - name: EXTRACTING CURRENT CONFIGURATION FOR {{ interface }}  
+        no_log: True
+        comware_command:
+           command:
+               - display interface {{ interface }}
+               - display vlan {{ vlan }}
+           type: display
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        register: print_output_1
+      - block:
+         - name: "CHECKING PORT STATUS FOR {{ interface }}"
+           debug:
+             msg: "PORT {{ interface }} IS CURRENTLY IN USE. UNABLE TO CONFIGURE THIS PORT"
+         - meta: end_play
+        when: '"Current state: UP" in print_output_1.response'
+      - block:
+         - name: "CHECKING VLAN STATUS {{ vlan }}"
+           debug:
+             msg: "VLAN {{ vlan }} IS CURRENTLY NOT CONFIGURED. UNABLE TO CONFIGURE THIS PORT"
+         - meta: end_play
+        when: '"This VLAN does not exist" in print_output_1.response'
+      - name: PORT {{ interface }} AND VLAN {{ vlan }} IS AVAILABLE, BEGINING CONFIGURATION 
+        no_log: True
+        comware_command:
+           command:
+                - int {{ interface }}
+                - "{{ state }}"
+                - port link-mode bridge
+                - port link-type access
+                - port access vlan {{ vlan }}
+                - description {{ description }}
+           type: config
+           username: "{{ username }}"
+           password: "{{ password }}"
+           hostname: "{{ inventory_hostname }}"
+        when: 
+          - '"DOWN" in print_output_1.response'
+          - '"VLAN" in print_output_1.response'
+        register: print_output_2
+      - debug:
+          "msg": 
+             ACCESS-PORT {{ interface }} CONFIGURED SUCCESSFULLY WITH VLAN {{ vlan }} ON {{ host }}
