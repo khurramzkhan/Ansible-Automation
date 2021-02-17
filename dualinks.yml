@@ -101,7 +101,7 @@
         when: '"UP" in print_output_2.response'
 
   
-  - name: BEGINING SERVER TRUNK CONFIGURATION FOR ZONE 1 VLANS on {{ secondhost }}  
+  - name: BEGINING SERVER TRUNK CONFIGURATION FOR {{ secondhost }}  
     hosts: "{{secondhost}}"
     gather_facts: no
     connection: local
