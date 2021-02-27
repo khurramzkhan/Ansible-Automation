@@ -17,9 +17,9 @@
         register: print_output_1
       
       - block:
-         - name: "CHECKING CURRENT NTP STATUS
+         - name: CHECKING CURRENT NTP STATUS
            debug:
-             msg: "CLOCK STATUS IS SYNCRONIZED. DO NOT NEED TO APPLY NTP CONFIGURATION ON {{ host }}"
+             msg: "CLOCK STATUS IS SYNCRONIZED. DO NOT NEED TO APPLY NTP CONFIGURATION on {{ host }}"
          - meta: end_play
         when: '"synchronized" in print_output_1.response'
     
