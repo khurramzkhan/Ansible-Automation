@@ -5,7 +5,7 @@
     connection: local
 
     tasks:
-      - name: EXTRACTING CURRENT NTP CONFIGURATION FOR {{ host }}    
+      - name: BEGINING NTP CONFIGURATION FOR {{ host }}    
         no_log: True
         comware_command:
            command:
@@ -15,37 +15,40 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_1
-
-      - debug:
-          msg: "CLOCK STATUS IS SYNCRONIZED. DO NOT NEED TO APPLY NTP CONFIGURATION ON {{ host }}"
+      
+      - block:
+         - name: "CHECKING CURRENT NTP STATUS
+           debug:
+             msg: "CLOCK STATUS IS SYNCRONIZED. DO NOT NEED TO APPLY NTP CONFIGURATION ON {{ host }}"
+         - meta: end_play
         when: '"synchronized" in print_output_1.response'
     
     
-      - name: EXTRACTING CURRENT NTP CONFIGURATION FOR {{ host }}   
-        no_log: True
-        comware_command:
-           command:
-               - display current-configuration | i ntp
-           type: display
-           username: "{{ username }}"
-           password: "{{ password }}"
-           hostname: "{{ inventory_hostname }}"
-        register: print_output_1
+  #    - name: EXTRACTING CURRENT NTP CONFIGURATION FOR {{ host }}   
+  #      no_log: True
+  #      comware_command:
+  #        command:
+  #            - display current-configuration | i ntp
+  #        type: display
+  #        username: "{{ username }}"
+  #        password: "{{ password }}"
+  #        hostname: "{{ inventory_hostname }}"
+  #     register: print_output_1
   #    - debug:
   #        var=print_output_1.response
-      - set_fact:
-          print_output_2: "{{ print_output_1.response.split(' ') }}"
-        when: '"enable" in print_output_1.response'  
+  #    - set_fact:
+  #        print_output_2: "{{ print_output_1.response.split(' ') }}"
+  #      when: '"enable" in print_output_1.response'  
   #    - debug:
   #        var=print_output_2
-      - set_fact:
-          print_output_3: "{{ print_output_2[7] | regex_replace('\\r\\n','') }}"
-        when: '"enable" in print_output_1.response'  
+  #    - set_fact:
+  #        print_output_3: "{{ print_output_2[7] | regex_replace('\\r\\n','') }}"
+  #      when: '"enable" in print_output_1.response'  
    #   - debug:
    #       var=print_output_3
-      - set_fact:
-          print_output_4: "{{ print_output_2[11] | regex_replace('\\r\\n','') }}"
-        when: '"enable" in print_output_1.response'  
+  #    - set_fact:
+  #        print_output_4: "{{ print_output_2[11] | regex_replace('\\r\\n','') }}"
+   #     when: '"enable" in print_output_1.response'  
    #   - debug:
    #       var=print_output_4
 #      - set_fact:
@@ -54,28 +57,28 @@
 #      - debug:
 #          var=print_output_5
    
-      - name: REMOVING PREVIOUS NTP CONFIGURATIONS AND CONFIGURING NEW NTP SERVERS   
-        no_log: True
-        comware_command:
-           command:
-                - undo ntp-service enable
-                - undo ntp-service source 
-                - undo ntp-service unicast-server {{ print_output_2 }}
-                - undo ntp-service unicast-server {{ print_output_3 }}
-                - ntp-service enable
-                - ntp-service source {{ ntpvlan }}
-                - ntp-service unicast-server {{ ntp1 }} priority
-                - ntp-service unicast-server {{ ntp2 }}
-           type: config
-           username: "{{ username }}"
-           password: "{{ password }}"
-           hostname: "{{ inventory_hostname }}"
-        register: print_output_6
-        when: '"enable" in print_output_1.response' 
+  #    - name: REMOVING PREVIOUS NTP CONFIGURATIONS AND CONFIGURING NEW NTP SERVERS   
+  #      no_log: True
+  #     comware_command:
+  #        command:
+  #              - undo ntp-service enable
+  #              - undo ntp-service source 
+  #              - undo ntp-service unicast-server {{ print_output_2 }}
+  #              - undo ntp-service unicast-server {{ print_output_3 }}
+  #             - ntp-service enable
+  #             - ntp-service source {{ ntpvlan }}
+   #             - ntp-service unicast-server {{ ntp1 }} priority
+   #             - ntp-service unicast-server {{ ntp2 }}
+   #        type: config
+   #        username: "{{ username }}"
+   #        password: "{{ password }}"
+   #        hostname: "{{ inventory_hostname }}"
+   #     register: print_output_6
+   #     when: '"enable" in print_output_1.response' 
    #   - debug:
    #       var=print_output_6
       
-      - name: BEGINING NTP CONFIGURATION   
+      - name: APPLYING NTP CONFIGURATION   
         no_log: True
         comware_command:
            command:
@@ -90,9 +93,9 @@
            password: "{{ password }}"
            hostname: "{{ inventory_hostname }}"
         register: print_output_7
-        when: '"enable" not in print_output_1.response' 
-   #   - debug:
-   #       var=print_output_7
+        when: '"synchronized" not in print_output_1.response' 
+      - debug:
+          var=print_output_7
       - pause: seconds=60
       
       - name: VERIFYING RESULTS AFTER APPLYING NTP CONFIGURATION    
