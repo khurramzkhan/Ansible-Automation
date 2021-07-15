@@ -6,7 +6,7 @@
 
     tasks:
       - name: EXTRACTING CURRENT CONFIGURATION FOR {{ interface }}  
-        no_log: True
+        #no_log: True
         comware_command:
            command:
                - display interface {{ interface }}
@@ -23,7 +23,7 @@
          - meta: end_play
         when: '"Current state: UP" in print_output_1.response'
       - name: PORT {{ interface }} IS AVAILABLE, BEGINING CONFIGURATION 
-        no_log: True
+        #no_log: True
         comware_command:
            command:
                 - int {{ interface }}
@@ -36,7 +36,7 @@
         when: '"DOWN" in print_output_1.response'
         register: print_output_2
       - name: CHECKING VLAN AVAILABILITY FOR VLAN {{ vlan }} 
-        no_log: True
+        #no_log: True
         comware_command:
           command:
                 - vlan {{ vlan }}
@@ -52,7 +52,7 @@
           msg: VLAN {{ vlan }} DOES NOT EXIST ON THIS SWITCH. CREATING A NEW L2 VLAN
         when: '"This VLAN does not exist." in print_output_1.response'
       - name: VLAN & PORT ARE READY, FINALIZING CONFIGURATION
-        no_log: True
+        #no_log: True
         comware_command:
            command:
                 - int {{ interface }}
